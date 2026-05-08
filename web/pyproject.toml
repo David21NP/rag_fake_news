@@ -1,0 +1,57 @@
+[build-system]
+build-backend = "flit_core.buildapi"
+requires = [ "flit-core<4" ]
+
+[project]
+name = "rag-template"
+version = "1.0.0"
+description = "The basic blog app built in the RAG."
+readme = "README.md"
+# license = { file = "LICENSE" }
+maintainers = [ { name = "Nicholas", email = "david@david-projects.com" } ]
+classifiers = [
+  "Private :: Do Not Upload",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+]
+# dynamic = [ "version" ]
+dependencies = [
+  "fastapi[all]",
+  "ollama",
+  "psycopg2-binary",
+  "pypdf2",
+  "python-multipart",
+  "sqlmodel",
+]
+optional-dependencies.test = [ "coverage", "pytest" ]
+
+[tool.flit]
+# Documentation = "https://flask.palletsprojects.com/tutorial/"
+# urls.Source = "https://github.com/David21NP/flask-template"
+module.name = "main"
+sdist.include = [
+  "tests/",
+]
+
+[tool.ruff]
+src = [ "main" ]
+
+[tool.pytest]
+ini_options.testpaths = [ "tests" ]
+ini_options.filterwarnings = [ "error" ]
+
+[tool.coverage]
+run.branch = true
+run.source = [ "main", "tests" ]
+
+[tool.basedpyright]
+exclude = [
+  "**/node_modules",
+  "**/__pycache__",
+  "**/.venv",
+]
+reportUnusedCallResult = false
