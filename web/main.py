@@ -6,6 +6,7 @@ from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
 
 from config import Settings, get_settings
 from rag.utils import extract_text_from_pdf, make_query, pull_models, save_text
+from utils import test_db_connection
 
 app = FastAPI()
 
@@ -26,6 +27,15 @@ def read_root():
     return {"Hello": "World"}
 
 
+@app.get("/health")
+def health(settings: Annotated[Settings, Depends(get_settings)]):
+    try:
+        test_db_connection(settings)
+        return {"status": "ok"}
+    except Exception:
+        raise HTTPException(status_code=503, detail="db unavailable")
+
+
 @app.post("/text")
 def add_text(
     settings: Annotated[Settings, Depends(get_settings)],
@@ -35,7 +45,8 @@ def add_text(
     plain_text = ""
     if not text and not file:
         raise HTTPException(
-            status_code=401, detail="Must either send text or file"
+            status_code=401,
+            detail="Must either send text or file",
         )
 
     if file:

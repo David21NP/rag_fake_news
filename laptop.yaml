@@ -1,0 +1,109 @@
+services:
+  pgvector:
+    # image: "postgres:16-bullseye"
+    image: pgvector/pgvector:pg16-trixie
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/db-password
+      POSTGRES_USER: root
+      POSTGRES_DB: rag
+      # NOTE: for nomic-embed-text
+      # EMBEDDING_SIZE: 768
+      # NOTE: for Qwen3-Embedding-8B
+      # EMBEDDING_SIZE: 4096
+      # NOTE: for final testing
+      EMBEDDING_SIZE: 1024
+    volumes:
+      - pg_data:/var/lib/postgresql
+      - ./db/init-vector.sh:/docker-entrypoint-initdb.d/init-vector.sh
+    secrets:
+      - db-password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web_ai:
+    build:
+      context: ./web # Specifies the build context as the ./app directory
+      dockerfile: Dockerfile # Uses the Dockerfile in the build context
+    tty: true
+    ports:
+      - 8000:8000
+    secrets:
+      - db-password
+    restart: unless-stopped
+    develop:
+      watch:
+        - action: sync
+          path: ..
+          target: /app
+        - action: rebuild
+          path: ../requirements.txt
+    env_file:
+      - models.env
+    environment:
+      DB_PASSWORD_FILE: /run/secrets/db-password
+      DB_USER: root
+      DB_NAME: rag
+      DB_HOST: pgvector
+      OLLAMA_URL: http://ollama:11434
+    healthcheck:
+      test: ["CMD", "wget", "-q", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    depends_on:
+      pgvector: # Ensures the pg_vector service is started
+        condition: service_healthy
+      ollama: # Ensures the ollama service is started
+        condition: service_healthy
+
+  ollama:
+    image: ollama/ollama # Specifies the Ollama image to use
+    ports:
+      - 11434:11434 # Maps port 11434 on the host to port 11434 in the container
+    environment:
+      OLLAMA_NUM_PARALLEL: 4
+      OLLAMA_MAX_LOADED_MODELS: 2
+      OLLAMA_MODELS: /usr/share/ollama/.ollama/models
+    healthcheck:
+      test: ["CMD-SHELL", "ollama --version && ollama ps && ollama list || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    volumes:
+      - ollama-models:/usr/share/ollama/.ollama/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia # Specifies the driver to use for GPU
+              count: 1 # Reserves 1 GPU
+              capabilities: [gpu] # Specifies that the device capability is GPU
+
+  model-loader:
+    image: curlimages/curl:latest
+    volumes:
+      - ./scripts/container/download_models.sh:/download_models.sh:ro
+    env_file:
+      - models.env
+    depends_on:
+      ollama:
+        condition: service_healthy
+    entrypoint: ["sh", "/download_models.sh"]
+    restart: "no"
+
+
+volumes:
+  pg_data: {}
+  ollama-models:
+
+secrets:
+  db-password:
+    file: ./secrets/password.txt
+
