@@ -83,6 +83,15 @@ La API queda disponible en `http://localhost:8000`. Documentación interactiva e
 
 ---
 
+## Módulos
+
+| Módulo | Ruta | Descripción |
+|---|---|---|
+| Pipeline RAG | `web/rag/utils.py` | Núcleo: embed, búsqueda semántica, construcción de prompt, inferencia LLM |
+| Baseline lingüístico | `web/linguistic/pipeline.py` | Clasificador NC-LBFV: TF-IDF + embeddings spaCy + emociones NRCLex + Random Forest |
+
+---
+
 ## Experimentos
 
 Los scripts de evaluación están en `web/scripts/experiments/`:
@@ -92,11 +101,15 @@ Los scripts de evaluación están en `web/scripts/experiments/`:
 | `run_oe4_ablation.py` | OE4 | Ablation de parámetros RAG: embedding × chunking × top-k (16 configuraciones) |
 | `run_oe3_baselines.py` | OE3 | Comparación del sistema vs. baselines sobre el subset de evaluación |
 
+> **Work in progress** — los scripts de experimentos son stubs vacíos pendientes de implementación.
+
 Ver `web/README.md` para instrucciones de ejecución de los experimentos.
 
 ---
 
 ## Tests
+
+> **Work in progress** — los archivos de test son stubs vacíos pendientes de implementación.
 
 ```bash
 # Desde el directorio web/
@@ -112,7 +125,14 @@ pytest tests/
 
 ## Base de datos
 
-El esquema se inicializa automáticamente al levantar el contenedor `pgvector` mediante `db/init-vector.sh`.
+El esquema se inicializa automáticamente al levantar el contenedor `pgvector` mediante `db/init-vector.sh`. Se crean las siguientes tablas:
+
+| Tabla | Descripción |
+|---|---|
+| `documents_principal` | Embeddings con `mxbai-embed-large` (configuración principal, 1024 dims) |
+| `documents_ablation` | Embeddings con `nomic-embed-text` (configuración ablation) |
+| `verifications` | Log de clasificaciones: noticia, docs recuperados, prompt, razonamiento LLM, etiqueta y confianza |
+
 
 Para exportar la knowledge base indexada y desplegarla en el servidor:
 

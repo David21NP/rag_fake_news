@@ -13,15 +13,17 @@ web/
 ├── utils.py              # Utilidades generales
 ├── rag/
 │   └── utils.py          # Núcleo del pipeline: embed, search, make_query
+├── linguistic/
+│   └── pipeline.py       # Baseline NC-LBFV: TF-IDF + spaCy + NRCLex + Random Forest
 ├── scripts/
 │   └── experiments/
-│       ├── run_oe4_ablation.py   # Ablation de parámetros RAG (OE4)
-│       └── run_oe3_baselines.py  # Comparación con baselines (OE3)
+│       ├── run_oe4_ablation.py   # Ablation de parámetros RAG (OE4) [WIP]
+│       └── run_oe3_baselines.py  # Comparación con baselines (OE3) [WIP]
 └── tests/
     ├── rag/
-    │   └── test_create_embedding.py
+    │   └── test_create_embedding.py  # [WIP]
     └── linguistic/
-        └── test_pipeline.py
+        └── test_pipeline.py          # [WIP]
 ```
 
 ---
@@ -55,13 +57,16 @@ curl -X POST "http://localhost:8000/ask?query=El+gobierno+anuncia+nueva+ley..."
 
 Variables de entorno (definidas en el `docker-compose` o en un `.env` local):
 
-| Variable | Valor por defecto | Descripción |
+| Variable | Valor (docker-compose) | Descripción |
 |---|---|---|
-| `DB_HOST` | `localhost` | Host de PostgreSQL |
-| `DB_NAME` | `postgres` | Nombre de la base de datos |
-| `DB_USER` | `postgres` | Usuario de PostgreSQL |
-| `DB_PASSWORD_FILE` | — | Ruta al archivo con la contraseña (Docker secrets) |
+| `DB_HOST` | `pgvector` | Host de PostgreSQL |
+| `DB_NAME` | `rag` | Nombre de la base de datos |
+| `DB_USER` | `root` | Usuario de PostgreSQL |
+| `DB_PASSWORD_FILE` | `/run/secrets/db-password` | Ruta al archivo con la contraseña (Docker secrets) |
 | `OLLAMA_URL` | `http://ollama:11434` | URL del servicio Ollama |
+| `OLLAMA_MODEL_EMBEDDING_PRINCIPAL` | `mxbai-embed-large` | Modelo de embedding principal |
+| `OLLAMA_MODEL_EMBEDDING_ABLATION` | `nomic-embed-text` | Modelo de embedding para ablation |
+| `OLLAMA_MODEL_LLM_GENERADOR` | `qwen3:8b-q4_K_M` | Modelo LLM generador |
 
 ---
 
@@ -89,7 +94,9 @@ Los scripts de experimentos se ejecutan directamente con Python, fuera del conte
 
 ### OE4 — Ablation de parámetros RAG
 
-Evalúa 16 configuraciones (2 embeddings × 2 estrategias de chunking × 4 valores de top-k) sobre un subset estratificado de 500 ejemplos.
+> **Work in progress** — script pendiente de implementación.
+
+Evaluará 16 configuraciones (2 embeddings × 2 estrategias de chunking × 4 valores de top-k) sobre un subset estratificado de 500 ejemplos.
 
 ```bash
 python scripts/experiments/run_oe4_ablation.py \
@@ -100,7 +107,9 @@ python scripts/experiments/run_oe4_ablation.py \
 
 ### OE3 — Comparación con baselines
 
-Evalúa la configuración principal del sistema (mxbai-embed-large / noticia completa / k=3) sobre 1.000–2.000 ejemplos para comparar con NC-LBFV y Nezafat & Samet (2024).
+> **Work in progress** — script pendiente de implementación.
+
+Evaluará la configuración principal del sistema (mxbai-embed-large / noticia completa / k=3) sobre 1.000–2.000 ejemplos para comparar con NC-LBFV (`linguistic/pipeline.py`) y Nezafat & Samet (2024).
 
 ```bash
 python scripts/experiments/run_oe3_baselines.py \
