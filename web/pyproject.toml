@@ -40,9 +40,9 @@ sdist.include = [
 [tool.ruff]
 src = [ "main" ]
 
-[tool.pytest]
-ini_options.testpaths = [ "tests" ]
-ini_options.filterwarnings = [ "error" ]
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = [ "error" ]
 
 [tool.coverage]
 run.branch = true
