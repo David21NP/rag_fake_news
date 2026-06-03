@@ -2,9 +2,8 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
-from pydantic import HttpUrl, model_validator
+from pydantic import Field, HttpUrl, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
 
 
 class Settings(BaseSettings):
@@ -28,8 +27,10 @@ class Settings(BaseSettings):
     ollama_model_embedding_principal: str
     ollama_model_embedding_ablation: str
     ollama_model_llm_generador: str
-    top_k_selected: int = 3
+    top_k_selected: int = Field(3, ge=1)
     chunk_selected: Literal["full"] | Literal["sliding"]
+    ollama_num_ctx: int = 2048
+    temperature_selected: float = Field(0.0, ge=0, le=1)
 
     # model_config = SettingsConfigDict(env_file=".env")
 
@@ -37,5 +38,3 @@ class Settings(BaseSettings):
 @lru_cache
 def get_settings():
     return Settings()
-
-

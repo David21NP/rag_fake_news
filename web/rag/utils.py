@@ -170,7 +170,11 @@ def create_generator(
     model: str,
     settings: Settings,
     chunk_type: Literal["full", "sliding"],
+    temperature: float | None = None,
 ):
+    if temperature is None:
+        temperature = settings.temperature_selected
+
     def generate_response(
         *,
         text: str,
@@ -226,6 +230,10 @@ def create_generator(
                 think=think,
                 stream=False,
                 format=ModelResponse.model_json_schema(),
+                options={
+                    "num_ctx": settings.ollama_num_ctx,
+                    "temperature": temperature,
+                },
             )
         )
 
