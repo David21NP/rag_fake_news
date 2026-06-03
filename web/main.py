@@ -1,11 +1,15 @@
-import logging
-import sys
+# import logging
+# import sys
 from typing import Annotated
 
-from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 
-from config import Settings, get_settings
-from rag.utils import extract_text_from_pdf, make_query, pull_models, save_text
+from config import get_settings
+from rag.utils import (
+    create_embedder,
+    extract_text_from_pdf,
+    create_generator,
+)
 from utils import test_db_connection
 
 app = FastAPI()
@@ -21,6 +25,17 @@ app = FastAPI()
 # logger.addHandler(stream_handler)
 # logger.info("API is starting up")
 
+create_and_save_embedding = create_embedder(
+    settings=get_settings(),
+    model=get_settings().ollama_model_embedding_selected,
+    chunk_type=get_settings().chunk_selected,
+)
+generate_response = create_generator(
+    settings=get_settings(),
+    model=get_settings().ollama_model_embedding_selected,
+    chunk_type=get_settings().chunk_selected,
+)
+
 
 @app.get("/")
 def read_root():
@@ -28,9 +43,9 @@ def read_root():
 
 
 @app.get("/health")
-def health(settings: Annotated[Settings, Depends(get_settings)]):
+def health():
     try:
-        test_db_connection(settings)
+        test_db_connection()
         return {"status": "ok"}
     except Exception:
         raise HTTPException(status_code=503, detail="db unavailable")
@@ -38,15 +53,30 @@ def health(settings: Annotated[Settings, Depends(get_settings)]):
 
 @app.post("/text")
 def add_text(
-    settings: Annotated[Settings, Depends(get_settings)],
     text: Annotated[str | None, Form()] = None,
+    title: Annotated[str | None, Form()] = None,
+    label: Annotated[str | None, Form()] = None,
     file: Annotated[UploadFile | None, File()] = None,
 ):
+    if not label:
+        raise HTTPException(
+            status_code=401,
+            detail="'label' is required",
+        )
+
+    try:
+        label_int = int(label)
+    except ValueError as value_error:
+        raise HTTPException(
+            status_code=401,
+            detail="'label' must be a valid number",
+        ) from value_error
+
     plain_text = ""
     if not text and not file:
         raise HTTPException(
             status_code=401,
-            detail="Must either send text or file",
+            detail="Must either send 'text' or 'file'",
         )
 
     if file:
@@ -58,27 +88,26 @@ def add_text(
     if text:
         plain_text = text
 
-    # logger.info("====================================")
-    # logger.info(settings.db_user)
-    # logger.info(settings.db_password)
-    # logger.info(settings.db_name)
-    # logger.info(settings.db_host)
-    # logger.info("====================================")
-
-    save_text(plain_text, settings)
+    create_and_save_embedding(
+        title=title,
+        text=plain_text,
+        label=label_int,
+    )
 
     return {"ok": True, "msg": "Text added to vector db"}
 
 
 @app.post("/ask")
-def ask(
-    settings: Annotated[Settings, Depends(get_settings)],
-    query: str,
+def ask_if_fake_news(
+    text: str,
+    title: str | None = None,
+    top_k: int | None = None,
 ):
-    return {"ok": True, "response": make_query(query, settings)}
-
-
-@app.get("/pull_models")
-def pull_models_ollama(settings: Annotated[Settings, Depends(get_settings)]):
-    pull_models(settings)
-    return {"ok": True}
+    return {
+        "ok": True,
+        "response": generate_response(
+            title=title,
+            text=text,
+            top_k=top_k,
+        ),
+    }

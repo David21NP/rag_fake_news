@@ -1,0 +1,14 @@
+## Retrieved reference articles
+
+{context}
+
+---
+
+## News article to classify
+
+{query}
+
+---
+
+Classify the news article above based solely on the retrieved references.
+Respond with valid JSON only.

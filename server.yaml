@@ -4,16 +4,12 @@ services:
     image: pgvector/pgvector:pg16-trixie
     restart: always
     shm_size: 128mb
+    ports:
+      - 5432:5432
     environment:
       POSTGRES_PASSWORD_FILE: /run/secrets/db-password
       POSTGRES_USER: root
       POSTGRES_DB: rag
-      # NOTE: for nomic-embed-text
-      # EMBEDDING_SIZE: 768
-      # NOTE: for Qwen3-Embedding-8B
-      # EMBEDDING_SIZE: 4096
-      # NOTE: for final testing
-      EMBEDDING_SIZE: 1024
     volumes:
       - pg_data:/var/lib/postgresql
       - ./db/init-vector.sh:/docker-entrypoint-initdb.d/init-vector.sh
@@ -37,11 +33,9 @@ services:
     restart: unless-stopped
     develop:
       watch:
-        - action: sync
+        - action: sync+restart
           path: ..
           target: /app
-        - action: rebuild
-          path: ../requirements.txt
     env_file:
       - models.env
     environment:
