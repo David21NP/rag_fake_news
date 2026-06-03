@@ -16,7 +16,7 @@ from sklearn.metrics import (
     recall_score,
 )
 
-from ..types import Metrics
+from schemas import Metrics
 
 
 # TF-IDF: máximo 10000 términos, ignorar palabras muy frecuentes y muy raras
