@@ -1,7 +1,7 @@
 import io
 import os
 from itertools import repeat
-from typing import Callable, Literal
+from typing import Literal
 
 import ollama
 import psycopg2
@@ -25,27 +25,12 @@ def extract_text_from_pdf(pdf_content: bytes):
     return pdf_text.replace("\x00", "")
 
 
-def build_chunk_full(
-    title: str | None,
-    text: str,
-) -> str:
-    if title is None:
-        return text
-    return f"{title}\n\n{text}"
-
-
 def build_chunks_sliding(
-    title: str | None,
-    text: str,
+    full_text: str,
     chunk_size: int = 256,
     overlap: int = 64,
 ) -> list[str]:
     ## If the text has already the title line in a pdf
-    if title is None:
-        full_text = text
-    else:
-        full_text = f"{title}\n\n{text}"
-
     words = full_text.split()
     chunks: list[str] = []
     step = chunk_size - overlap  # 192 palabras de avance por chunk
@@ -62,17 +47,17 @@ def select_by_model_chunk(
     settings: Settings,
     model: str,
     chunk_type: Literal["full", "sliding"],
-) -> tuple[str, Callable[[str | None, str], str | list[str]]]:
+) -> str:
     if model == settings.ollama_model_embedding_principal:
         if chunk_type == "full":
-            return "documents_emba_chunka", build_chunk_full
+            return "documents_emba_chunka"
         else:
-            return "documents_emba_chunkb", build_chunks_sliding
+            return "documents_emba_chunkb"
     else:
         if chunk_type == "full":
-            return "documents_embb_chunka", build_chunk_full
+            return "documents_embb_chunka"
         else:
-            return "documents_embb_chunkb", build_chunks_sliding
+            return "documents_embb_chunkb"
 
 
 def create_embedder(
@@ -80,16 +65,59 @@ def create_embedder(
     settings: Settings,
     chunk_type: Literal["full", "sliding"],
 ):
-    table, chunk_fn = select_by_model_chunk(settings, model, chunk_type)
+    table = select_by_model_chunk(settings, model, chunk_type)
 
-    def create_and_save_embedding(
+    if chunk_type == "sliding":
+
+        def create_and_save_embedding(
+            *,
+            texts: list[str],
+            labels: list[int],
+        ):
+            texts_in_chunks: list[str] = []
+            labels_in_chunks: list[int] = []
+            for ind, text in enumerate(texts):
+                chunks = build_chunks_sliding(text)
+                texts_in_chunks.extend(chunks)
+                labels_in_chunks.extend(repeat(labels[ind], len(chunks)))
+
+            with psycopg2.connect(
+                dbname=settings.db_name,
+                user=settings.db_user,
+                password=settings.db_password,
+                host=settings.db_host,
+            ) as conn:
+                query = psycopg2.sql.SQL(
+                    (
+                        "INSERT INTO {table} (content, label, embedding)"
+                        " VALUES (%s, %s, %s)"
+                    )
+                ).format(table=psycopg2.sql.Identifier(table))
+                with conn.cursor() as cur:
+                    client_ollama = ollama.Client(
+                        host=str(settings.ollama_url)
+                    )
+                    embedding: ollama.EmbedResponse = client_ollama.embed(
+                        model=model,
+                        input=texts_in_chunks,
+                    )
+                    psycopg2.extras.execute_batch(
+                        cur,
+                        query,
+                        zip(
+                            texts_in_chunks,
+                            labels_in_chunks,
+                            embedding.embeddings,
+                        ),
+                    )
+
+        return create_and_save_embedding
+
+    def create_and_save_embedding_batch(
         *,
-        text: str,
-        label: int,
-        title: str | None = None,
+        texts: list[str],
+        labels: list[int],
     ):
-        chunks_or_text = chunk_fn(title, text)
-
         with psycopg2.connect(
             dbname=settings.db_name,
             user=settings.db_user,
@@ -106,23 +134,19 @@ def create_embedder(
                 client_ollama = ollama.Client(host=str(settings.ollama_url))
                 embedding: ollama.EmbedResponse = client_ollama.embed(
                     model=model,
-                    input=chunks_or_text,
+                    input=texts,
                 )
-                if isinstance(chunks_or_text, list):
-                    psycopg2.extras.execute_batch(
-                        cur,
-                        query,
-                        zip(
-                            chunks_or_text, repeat(label), embedding.embeddings
-                        ),
-                    )
-                else:
-                    cur.execute(
-                        query,
-                        (chunks_or_text, label, embedding.embeddings[0]),
-                    )
+                psycopg2.extras.execute_batch(
+                    cur,
+                    query,
+                    zip(
+                        texts,
+                        labels,
+                        embedding.embeddings,
+                    ),
+                )
 
-    return create_and_save_embedding
+    return create_and_save_embedding_batch
 
 
 def search_similar_embedding(
@@ -137,8 +161,8 @@ def search_similar_embedding(
     if top_k is None:
         top_k = settings.top_k_selected
 
-    table, _ = select_by_model_chunk(settings, model, chunk_type)
-    text_to_test = build_chunk_full(title, text)
+    table = select_by_model_chunk(settings, model, chunk_type)
+    text_to_test = text if title is None else f"{title}\n\n{text}"
 
     with psycopg2.connect(
         dbname=settings.db_name,
