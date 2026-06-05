@@ -1,4 +1,5 @@
 import itertools
+from concurrent.futures import ThreadPoolExecutor
 from typing import Literal
 
 import common.utils
@@ -30,21 +31,26 @@ def add_embeddings():
         )
     ]
     print("Creating embeddings ...")
-    for index, df_batch in common.utils.iter_batches(
-        df_train,
-        batch_size=batch_size,
-    ):
-        texts = (
-            df_batch["title"].fillna("") + "\n\n" + df_batch["text"]
-        ).tolist()
-        labels = df_batch["label"].tolist()
-        for embedder in embedders:
-            embedder(texts=texts, labels=labels)
-        if (index // batch_size) % 10 == 0:
-            common.utils.loading_bar(
-                ((index + 1) / total_data) * 100.0,
-                "Loading: ",
-            )
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        for index, df_batch in common.utils.iter_batches(
+            df_train,
+            batch_size=batch_size,
+        ):
+            texts = (
+                df_batch["title"].fillna("") + "\n\n" + df_batch["text"]
+            ).tolist()
+            labels = df_batch["label"].tolist()
+            futures = [
+                executor.submit(embedder, texts=texts, labels=labels)
+                for embedder in embedders
+            ]
+            for future in futures:
+                future.result()
+            if (index // batch_size) % 10 == 0:
+                common.utils.loading_bar(
+                    ((index + 1) / total_data) * 100.0,
+                    "Loading: ",
+                )
 
     common.utils.loading_bar(100.0, "Done: ")
     print()
