@@ -139,8 +139,8 @@ Para exportar la knowledge base indexada y desplegarla en el servidor:
 ```bash
 # Exportar desde laptop
 pg_dump -h localhost -U root -d rag > rag_dump.sql
+docker exec postgres pg_dump rag > ./db/rag_dump.sql
 
 # Importar en servidor
 psql -h <server-host> -U root -d rag < rag_dump.sql
-docker exec postgres pg_dump -U myuser mydb > ./rag_dump.sql
 ```
