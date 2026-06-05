@@ -1,4 +1,5 @@
 import itertools
+import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import Literal
 
@@ -31,11 +32,17 @@ def add_embeddings():
         )
     ]
     print("Creating embeddings ...")
+    start_time = time.perf_counter()
     with ThreadPoolExecutor(max_workers=4) as executor:
         for index, df_batch in common.utils.iter_batches(
             df_train,
             batch_size=batch_size,
         ):
+            if index == 0:
+                common.utils.loading_bar(
+                    (index / total_data) * 100.0,
+                    f"ETA ?m?s | Loading: ",
+                )
             texts = (
                 df_batch["title"].fillna("") + "\n\n" + df_batch["text"]
             ).tolist()
@@ -46,10 +53,15 @@ def add_embeddings():
             ]
             for future in futures:
                 future.result()
-            if (index // batch_size) % 10 == 0:
+            if (index // batch_size) % 10 == 0 and index > 0:
+                elapsed = time.perf_counter() - start_time
+                rate = index / elapsed
+                remaining_sec = (total_data - index) / rate
+                eta_min = int(remaining_sec // 60)
+                eta_sec = int(remaining_sec % 60)
                 common.utils.loading_bar(
-                    ((index + 1) / total_data) * 100.0,
-                    "Loading: ",
+                    (index / total_data) * 100.0,
+                    f"ETA {eta_min}m{eta_sec}s | Loading: ",
                 )
 
     common.utils.loading_bar(100.0, "Done: ")
