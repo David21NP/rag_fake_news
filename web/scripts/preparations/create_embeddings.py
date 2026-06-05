@@ -13,7 +13,8 @@ def add_embeddings():
     print("Loading train dataset ...")
     df_train = common.utils.get_df_train()
     data = df_train.to_dict("records")
-    print(f"Loaded: {len(data)} samples")
+    total_data = len(data)
+    print(f"Loaded: {total_data} samples")
     models = [
         settings.ollama_model_embedding_principal,
         settings.ollama_model_embedding_ablation,
@@ -25,11 +26,19 @@ def add_embeddings():
         )
     ]
     print("Creating embeddings ...")
-    for row in data:
+    for index, row in enumerate(data):
         for embedder in embedders:
             embedder(
                 title=row["title"] or None,
                 text=row["text"],
                 label=row["label"],
             )
+        if index % 10 == 0:
+            common.utils.loading_bar(
+                ((index + 1) / total_data) * 100.0,
+                "Loading: ",
+            )
+
+    common.utils.loading_bar(100.0, "Done: ")
+    print()
     print("Finish creating embeddings!")

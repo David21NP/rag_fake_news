@@ -130,15 +130,16 @@ def run_oe4():
             if cfg.config_id in done_ids:
                 continue
 
-            print(
+            common.utils.loading_bar(
+                ((cfg.config_id) / len(configs)) * 100.0,
                 (
-                    f"\n[{cfg.config_id}/{len(configs)}] "
+                    f"[{cfg.config_id}/{len(configs)}] "
                     f"{cfg.embedding} {cfg.chunking} "
                     f"k={cfg.top_k} T={cfg.temperature} think={cfg.thinking}"
-                )
+                    " --- Loading: "
+                ),
             )
 
-            # Temperature is captured at generator-creation time (closure), not per-call
             generator = create_generator(
                 settings=settings,
                 model=cfg.model,

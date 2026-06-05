@@ -3,6 +3,7 @@ FROM python:3.14
 
 WORKDIR /code
 
+ENV PYTHONUNBUFFERED=1
 
 COPY ./requirements.txt /code/requirements.txt
 
