@@ -30,7 +30,10 @@ def add_embeddings():
         )
     ]
     print("Creating embeddings ...")
-    for index, df_batch in common.utils.iter_batches(df_train, batch_size=128):
+    for index, df_batch in common.utils.iter_batches(
+        df_train,
+        batch_size=batch_size,
+    ):
         texts = (
             df_batch["title"].fillna("") + "\n\n" + df_batch["text"]
         ).tolist()
