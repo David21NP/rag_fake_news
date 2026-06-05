@@ -1,16 +1,17 @@
 services:
   pgvector:
-    # image: "postgres:16-bullseye"
     image: pgvector/pgvector:pg16-trixie
     restart: always
     shm_size: 128mb
+    ports:
+      - 5432:5432
     environment:
       POSTGRES_PASSWORD_FILE: /run/secrets/db-password
       POSTGRES_USER: root
       POSTGRES_DB: rag
     volumes:
-      - pg_data:/var/lib/postgresql
-      - ./db/init-vector.sh:/docker-entrypoint-initdb.d/init-vector.sh
+      - ./db/rag_dump.sql:/docker-entrypoint-initdb.d/a-restore-db.sql
+      - ./db/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     secrets:
       - db-password
     healthcheck:
@@ -31,11 +32,9 @@ services:
     restart: unless-stopped
     develop:
       watch:
-        - action: sync
+        - action: sync+restart
           path: ..
           target: /app
-        - action: rebuild
-          path: ../requirements.txt
     env_file:
       - models.env
     environment:
@@ -44,12 +43,15 @@ services:
       DB_NAME: rag
       DB_HOST: pgvector
       OLLAMA_URL: http://ollama:11434
+    volumes:
+      - ./web/datasets/:/code/datasets/
+      - ./web/results/:/code/results/
     healthcheck:
       test: ["CMD", "wget", "-q", "http://localhost:8000/health"]
-      interval: 30s
+      interval: 20m
       timeout: 10s
       retries: 3
-      start_period: 10s
+      start_period: 1h
     depends_on:
       pgvector: # Ensures the pg_vector service is started
         condition: service_healthy
@@ -94,7 +96,6 @@ services:
 
 
 volumes:
-  pg_data: {}
   ollama-models:
 
 secrets:

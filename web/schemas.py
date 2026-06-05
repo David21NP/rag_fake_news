@@ -1,4 +1,4 @@
-from typing import Literal, Protocol, TypedDict
+from typing import Literal, TypedDict
 
 from pydantic import BaseModel, Field
 
@@ -27,23 +27,3 @@ class ModelResponse(BaseModel):
 class GeneratedResponse(BaseModel):
     thinking: str | None
     answer: ModelResponse
-
-
-class Embedder(Protocol):
-    def __call__(
-        self,
-        *,
-        text: str,
-        label: int,
-        title: str | None = None,
-    ) -> None: ...
-
-
-class Generator(Protocol):
-    def __call__(
-        *,
-        text: str,
-        title: str | None = None,
-        top_k: int | None = None,
-        think: bool = True,
-    ) -> GeneratedResponse: ...

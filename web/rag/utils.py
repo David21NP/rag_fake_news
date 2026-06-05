@@ -43,7 +43,8 @@ def build_chunks_sliding(
     ## If the text has already the title line in a pdf
     if title is None:
         full_text = text
-    full_text = f"{title}\n\n{text}"
+    else:
+        full_text = f"{title}\n\n{text}"
 
     words = full_text.split()
     chunks: list[str] = []
@@ -104,7 +105,7 @@ def create_embedder(
             with conn.cursor() as cur:
                 client_ollama = ollama.Client(host=str(settings.ollama_url))
                 embedding: ollama.EmbedResponse = client_ollama.embed(
-                    model=settings.ollama_model_embedding_selected,
+                    model=model,
                     input=chunks_or_text,
                 )
                 if isinstance(chunks_or_text, list):
@@ -148,7 +149,7 @@ def search_similar_embedding(
         with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
             client_ollama = ollama.Client(host=str(settings.ollama_url))
             embedding: ollama.EmbedResponse = client_ollama.embed(
-                model=settings.ollama_model_embedding_selected,
+                model=model,
                 input=text_to_test,
             )
             cur.execute(
@@ -170,18 +171,18 @@ def create_generator(
     model: str,
     settings: Settings,
     chunk_type: Literal["full", "sliding"],
-    temperature: float | None = None,
 ):
-    if temperature is None:
-        temperature = settings.temperature_selected
-
     def generate_response(
         *,
         text: str,
         title: str | None = None,
         top_k: int | None = None,
         think: bool = True,
+        temperature: float | None = None,
     ):
+        if temperature is None:
+            temperature = settings.temperature_selected
+
         results, text_to_test = search_similar_embedding(
             text=text,
             settings=settings,

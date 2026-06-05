@@ -1,5 +1,6 @@
 # import logging
 # import sys
+from contextlib import asynccontextmanager
 from typing import Annotated
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
@@ -10,9 +11,16 @@ from rag.utils import (
     extract_text_from_pdf,
     create_generator,
 )
+from scripts.preparations.create_embeddings import add_embeddings
 from utils import test_db_connection
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    add_embeddings()
+    yield
+    print("Does safe exit!")
+
+app = FastAPI(lifespan=lifespan)
 
 # logger = logging.getLogger(__name__)
 # logger.setLevel(logging.DEBUG)
