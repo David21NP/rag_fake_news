@@ -162,6 +162,20 @@ def evaluate_classifier(
     return metrics
 
 
+def compute_metrics(
+    y_true: np.ndarray[Any],
+    y_pred: np.ndarray[Any],
+    pos_label: int = 0,
+) -> Metrics:
+    """Compute metrics with pos_label=0 (fake) by default, per project convention."""
+    return Metrics(
+        accuracy=float(accuracy_score(y_true, y_pred)),
+        precision=float(precision_score(y_true, y_pred, pos_label=pos_label, zero_division=0)),
+        recall=float(recall_score(y_true, y_pred, pos_label=pos_label, zero_division=0)),
+        f1=float(f1_score(y_true, y_pred, pos_label=pos_label, zero_division=0)),
+    )
+
+
 def get_feature_importances(clf: RandomForestClassifier):
     """Return feature importances array from a fitted classifier."""
     # Nombres de las features
