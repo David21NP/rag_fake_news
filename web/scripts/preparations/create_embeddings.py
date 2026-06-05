@@ -53,7 +53,7 @@ def add_embeddings():
             ]
             for future in futures:
                 future.result()
-            if (index // batch_size) % 10 == 0 and index > 0:
+            if index > 0:
                 elapsed = time.perf_counter() - start_time
                 rate = index / elapsed
                 remaining_sec = (total_data - index) / rate
