@@ -75,6 +75,7 @@ def loading_bar(progress: float, prefix: str = "", size: int = 50):
 def iter_batches(
     df: pd.DataFrame,
     batch_size: int,
+    start: int = 0,
 ) -> Generator[tuple[int, pd.DataFrame], None, None]:
-    for start in range(0, len(df), batch_size):
-        yield start, df.iloc[start : start + batch_size]
+    for s in range(start, len(df), batch_size):
+        yield s, df.iloc[s : s + batch_size]

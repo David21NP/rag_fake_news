@@ -1,7 +1,7 @@
 import io
 import os
-from itertools import repeat
 import time
+from itertools import repeat
 from typing import Literal
 
 import ollama
@@ -74,13 +74,18 @@ def create_embedder(
             *,
             texts: list[str],
             labels: list[int],
+            start_index: int,
         ):
             texts_in_chunks: list[str] = []
             labels_in_chunks: list[int] = []
+            source_indexes_in_chunks: list[int] = []
             for ind, text in enumerate(texts):
                 chunks = build_chunks_sliding(text)
                 texts_in_chunks.extend(chunks)
                 labels_in_chunks.extend(repeat(labels[ind], len(chunks)))
+                source_indexes_in_chunks.extend(
+                    repeat(ind + start_index, len(chunks))
+                )
 
             with psycopg2.connect(
                 dbname=settings.db_name,
@@ -90,8 +95,8 @@ def create_embedder(
             ) as conn:
                 query = psycopg2.sql.SQL(
                     (
-                        "INSERT INTO {table} (content, label, embedding)"
-                        " VALUES (%s, %s, %s)"
+                        "INSERT INTO {table} (source_index, content, label, embedding)"
+                        " VALUES (%s, %s, %s, %s)"
                     )
                 ).format(table=psycopg2.sql.Identifier(table))
                 with conn.cursor() as cur:
@@ -106,6 +111,7 @@ def create_embedder(
                         cur,
                         query,
                         zip(
+                            source_indexes_in_chunks,
                             texts_in_chunks,
                             labels_in_chunks,
                             embedding.embeddings,
@@ -118,6 +124,7 @@ def create_embedder(
         *,
         texts: list[str],
         labels: list[int],
+        start_index: int,
     ):
         with psycopg2.connect(
             dbname=settings.db_name,
@@ -127,8 +134,8 @@ def create_embedder(
         ) as conn:
             query = psycopg2.sql.SQL(
                 (
-                    "INSERT INTO {table} (content, label, embedding)"
-                    " VALUES (%s, %s, %s)"
+                    "INSERT INTO {table} (source_index, content, label, embedding)"
+                    " VALUES (%s, %s, %s, %s)"
                 )
             ).format(table=psycopg2.sql.Identifier(table))
             with conn.cursor() as cur:
@@ -141,6 +148,7 @@ def create_embedder(
                     cur,
                     query,
                     zip(
+                        list(range(start_index, start_index + len(texts))),
                         texts,
                         labels,
                         embedding.embeddings,
