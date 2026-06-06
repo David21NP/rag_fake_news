@@ -15,3 +15,4 @@ save_pid.txt
 ssh_tunnel.log
 
 secrets
+db/rag_dump.sql
