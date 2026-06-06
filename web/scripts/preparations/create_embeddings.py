@@ -45,7 +45,10 @@ def get_current_embedding_index():
             for t in tables:
                 cur.execute(
                     psycopg2.sql.SQL(
-                        "DELETE FROM {table} WHERE source_index > %s"
+                        (
+                            "DELETE FROM {table} WHERE "
+                            "source_index IS NULL OR source_index > %s"
+                        )
                     ).format(table=psycopg2.sql.Identifier(t)),
                     (min_si,),
                 )
