@@ -4,7 +4,6 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import Literal
 
 import psycopg2
-import psycopg2.extras
 import psycopg2.sql
 
 import common.utils

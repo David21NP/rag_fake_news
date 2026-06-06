@@ -8,6 +8,7 @@ CREATE EXTENSION IF NOT EXISTS vector;
 -- EMB-A (mxbai-embed-large, 1024d) x CHUNK-A (full article)
 CREATE TABLE IF NOT EXISTS documents_emba_chunka (
     id serial PRIMARY KEY,
+    source_index INTEGER,
     content text NOT NULL,
     label smallint NOT NULL, -- 0=fake, 1=real
     embedding VECTOR (1024)
@@ -18,6 +19,7 @@ CREATE INDEX IF NOT EXISTS idx_emba_chunka_embedding ON documents_emba_chunka US
 -- EMB-A (mxbai-embed-large, 1024d) x CHUNK-B (256 tokens / overlap 64)
 CREATE TABLE IF NOT EXISTS documents_emba_chunkb (
     id serial PRIMARY KEY,
+    source_index INTEGER,
     content text NOT NULL,
     label smallint NOT NULL,
     embedding VECTOR (1024)
@@ -28,6 +30,7 @@ CREATE INDEX IF NOT EXISTS idx_emba_chunkb_embedding ON documents_emba_chunkb US
 -- EMB-B (nomic-embed-text, 768d) x CHUNK-A (full article)
 CREATE TABLE IF NOT EXISTS documents_embb_chunka (
     id serial PRIMARY KEY,
+    source_index INTEGER,
     content text NOT NULL,
     label smallint NOT NULL,
     embedding VECTOR (768)
@@ -38,6 +41,7 @@ CREATE INDEX IF NOT EXISTS idx_embb_chunka_embedding ON documents_embb_chunka US
 -- EMB-B (nomic-embed-text, 768d) x CHUNK-B (256 tokens / overlap 64)
 CREATE TABLE IF NOT EXISTS documents_embb_chunkb (
     id serial PRIMARY KEY,
+    source_index INTEGER,
     content text NOT NULL,
     label smallint NOT NULL,
     embedding VECTOR (768)
