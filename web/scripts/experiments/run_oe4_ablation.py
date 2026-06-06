@@ -121,6 +121,10 @@ def run_oe4():
                 done_ids.add(int(row["config_id"]))
         print(f"Resuming: {len(done_ids)}/{len(configs)} configs already done")
 
+    done_cfgs = 0
+    first = True
+
+    start_time = time.perf_counter()
     with open(RESULTS_FILE_PATH, "a" if done_ids else "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=CSV_COLUMNS)
         if not done_ids:
@@ -128,7 +132,19 @@ def run_oe4():
 
         for cfg in configs:
             if cfg.config_id in done_ids:
+                done_cfgs += 1
                 continue
+
+            if first:
+                eta_str = f"ETA ?m?s"
+                first = False
+            else:
+                elapsed = time.perf_counter() - start_time
+                rate = (cfg.config_id - done_cfgs) / elapsed
+                remaining_sec = (len(configs) - cfg.config_id) / rate
+                eta_min = int(remaining_sec // 60)
+                eta_sec = int(remaining_sec % 60)
+                eta_str = f"ETA {eta_min}m{eta_sec}s"
 
             common.utils.loading_bar(
                 ((cfg.config_id) / len(configs)) * 100.0,
@@ -136,7 +152,7 @@ def run_oe4():
                     f"[{cfg.config_id}/{len(configs)}] "
                     f"{cfg.embedding} {cfg.chunking} "
                     f"k={cfg.top_k} T={cfg.temperature} think={cfg.thinking}"
-                    " --- Loading: "
+                    f" | {eta_str} | Loading: "
                 ),
             )
 
