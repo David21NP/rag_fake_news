@@ -170,7 +170,11 @@ def run_oe4():
                 try:
                     t0 = time.perf_counter()
                     response = generator(
-                        title=row["title"] or None,
+                        title=(
+                            row["title"]
+                            if isinstance(row["title"], str)
+                            else None
+                        ),
                         text=row["text"],
                         top_k=cfg.top_k,
                         think=cfg.thinking,

@@ -296,7 +296,7 @@ def create_generator(
                             llm_reasoning,
                             label,
                             confidence
-                        ) VAlUES (%s, %s, %s, %s, %s, %s)
+                        ) VALUES (%s, %s, %s, %s, %s, %s)
                     """,
                     (
                         text_to_test,
