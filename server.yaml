@@ -10,6 +10,7 @@ services:
       POSTGRES_USER: root
       POSTGRES_DB: rag
     volumes:
+      - pgvector-data:/var/lib/postgresql/data
       - ./db/rag_dump.sql:/docker-entrypoint-initdb.d/a-restore-db.sql
       - ./db/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     secrets:
@@ -89,6 +90,7 @@ services:
 
 
 volumes:
+  pgvector-data:
   ollama-models:
 
 secrets:
