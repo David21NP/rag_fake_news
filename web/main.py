@@ -11,13 +11,14 @@ from rag.utils import (
     create_generator,
     extract_text_from_pdf,
 )
-from scripts.preparations.create_embeddings import add_embeddings
+from scripts.preparations.create_embeddings import add_embeddings, save_backup
 from utils import test_db_connection
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     add_embeddings()
+    save_backup()
     yield
 
 

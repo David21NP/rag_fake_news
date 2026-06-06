@@ -1,6 +1,9 @@
 import itertools
+import os
+import subprocess
 import time
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 from typing import Literal
 
 import psycopg2
@@ -11,6 +14,34 @@ from config import get_settings
 from rag.utils import create_embedder
 
 EXPERIMENT_CHUNK_TYPES: list[Literal["full", "sliding"]] = ["full", "sliding"]
+
+RESULTS_PATH = Path(__file__).parent.parent / "backups"
+
+
+def save_backup():
+    settings = get_settings()
+    RESULTS_PATH.mkdir(parents=True, exist_ok=True)
+    timestamp = time.strftime("%Y-%m-%d-%H-%M-%S")
+    backup_file = RESULTS_PATH / f"db-{timestamp}.sql"
+
+    with backup_file.open("w") as f:
+        result = subprocess.run(
+            [
+                "pg_dump",
+                "-h",
+                settings.db_host,
+                "-U",
+                settings.db_user,
+                "-d",
+                settings.db_name,
+            ],
+            stdout=f,
+            env={**os.environ, "PGPASSWORD": settings.db_password},
+        )
+    if result.returncode != 0:
+        print(f"Backup failed with exit code {result.returncode}")
+    else:
+        print(f"Backup saved to {backup_file}")
 
 
 def get_current_embedding_index():

@@ -43,8 +43,9 @@ services:
       DB_HOST: pgvector
       OLLAMA_URL: http://ollama:11434
     volumes:
-      - ./web/datasets/:/code/datasets/
-      - ./web/results/:/code/results/
+      - ./web/datasets/:/code/datasets
+      - ./web/results/:/code/results
+      - ./web/backups/:/code/backups
     healthcheck:
       test: ["CMD", "wget", "-q", "http://localhost:8000/health"]
       interval: 20m
