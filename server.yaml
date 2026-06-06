@@ -24,7 +24,6 @@ services:
     build:
       context: ./web # Specifies the build context as the ./app directory
       dockerfile: Dockerfile # Uses the Dockerfile in the build context
-    tty: true
     ports:
       - 8000:8000
     secrets:

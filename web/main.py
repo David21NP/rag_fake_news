@@ -8,17 +8,18 @@ from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from config import get_settings
 from rag.utils import (
     create_embedder,
-    extract_text_from_pdf,
     create_generator,
+    extract_text_from_pdf,
 )
 from scripts.preparations.create_embeddings import add_embeddings
 from utils import test_db_connection
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     add_embeddings()
     yield
-    print("Does safe exit!")
+
 
 app = FastAPI(lifespan=lifespan)
 
@@ -97,9 +98,8 @@ def add_text(
         plain_text = text
 
     create_and_save_embedding(
-        title=title,
-        text=plain_text,
-        label=label_int,
+        texts=[plain_text if title is None else f"{title}\n\n{plain_text}"],
+        labels=[label_int],
     )
 
     return {"ok": True, "msg": "Text added to vector db"}

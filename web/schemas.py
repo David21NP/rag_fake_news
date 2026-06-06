@@ -27,3 +27,5 @@ class ModelResponse(BaseModel):
 class GeneratedResponse(BaseModel):
     thinking: str | None
     answer: ModelResponse
+    time_elapsed: str
+    time_elapsed_llm: str

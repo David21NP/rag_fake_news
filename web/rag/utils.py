@@ -1,6 +1,7 @@
 import io
 import os
 from itertools import repeat
+import time
 from typing import Literal
 
 import ollama
@@ -204,6 +205,7 @@ def create_generator(
         think: bool = True,
         temperature: float | None = None,
     ):
+        start_time = time.perf_counter()
         if temperature is None:
             temperature = settings.temperature_selected
 
@@ -239,6 +241,7 @@ def create_generator(
             )
 
         client_ollama = ollama.Client(host=str(settings.ollama_url))
+        start_time_llm = time.perf_counter()
         response: ollama.ChatResponse = (
             client_ollama.chat(  # pyright: ignore[reportUnknownMemberType]
                 model=settings.ollama_model_llm_generador,
@@ -261,6 +264,7 @@ def create_generator(
                 },
             )
         )
+        elapsed_llm = time.perf_counter() - start_time_llm
 
         if response.message.content is None:
             raise HTTPException(500, "Content from llm empty")
@@ -298,10 +302,13 @@ def create_generator(
                         answer.confidence,
                     ),
                 )
+        elapsed = time.perf_counter() - start_time
 
         return GeneratedResponse(
             thinking=response.message.thinking,
             answer=answer,
+            time_elapsed=f"{int(elapsed // 60)}m{int(elapsed % 60)}s",
+            time_elapsed_llm=f"{int(elapsed_llm // 60)}m{int(elapsed_llm % 60)}s",
         )
 
     return generate_response
