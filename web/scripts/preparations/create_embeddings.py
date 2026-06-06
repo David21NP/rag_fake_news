@@ -15,7 +15,7 @@ from rag.utils import create_embedder
 
 EXPERIMENT_CHUNK_TYPES: list[Literal["full", "sliding"]] = ["full", "sliding"]
 
-RESULTS_PATH = Path(__file__).parent.parent / "backups"
+RESULTS_PATH = Path(__file__).parent.parent.parent / "backups"
 
 
 def save_backup():

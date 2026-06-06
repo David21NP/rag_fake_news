@@ -16,7 +16,7 @@ from config import get_settings
 from linguistic import run_NC_LBFV
 from rag.utils import create_generator
 
-RESULTS_PATH = Path(__file__).parent.parent / "results"
+RESULTS_PATH = Path(__file__).parent.parent.parent / "results"
 RESULTS_FILE_PATH = RESULTS_PATH / "oe3_baselines.csv"
 
 TEST_SUBSET_N_PER_CLASS = 500

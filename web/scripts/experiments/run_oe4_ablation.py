@@ -17,7 +17,7 @@ import common.utils
 from config import get_settings
 from rag.utils import create_generator
 
-RESULTS_PATH = Path(__file__).parent.parent / "results"
+RESULTS_PATH = Path(__file__).parent.parent.parent / "results"
 RESULTS_FILE_PATH = RESULTS_PATH / "oe4_ablation.csv"
 
 EXPERIMENT_CHUNK_TYPES: list[Literal["full", "sliding"]] = ["full", "sliding"]
