@@ -1,11 +1,15 @@
 # import logging
 # import sys
 from contextlib import asynccontextmanager
+from typing import Annotated
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 
 from config import get_settings
-from rag.utils import create_generator
+from rag.utils import (
+    create_generator,
+    extract_text_from_pdf,
+)
 from scripts.preparations.create_embeddings import add_embeddings, save_backup
 from utils import test_db_connection
 
@@ -34,7 +38,6 @@ generate_response = create_generator(
     settings=get_settings(),
     model=get_settings().ollama_model_embedding_selected,
     chunk_type=get_settings().chunk_selected,
-    experiment=False,
 )
 
 
@@ -50,6 +53,32 @@ def health():
         return {"status": "ok"}
     except Exception:
         raise HTTPException(status_code=503, detail="db unavailable")
+
+
+@app.post("/ask-file")
+def ask_if_fake_news_file(
+    top_k: Annotated[int | None, Form()] = None,
+    file: Annotated[UploadFile | None, File()] = None,
+):
+    if not file:
+        raise HTTPException(
+            status_code=401,
+            detail="Must send 'file'",
+        )
+
+    plain_text = ""
+    if file.content_type == "plain/text":
+        plain_text = file.file.read().decode("utf-8")
+    else:
+        plain_text = extract_text_from_pdf(file.file.read())
+
+    return {
+        "ok": True,
+        "response": generate_response(
+            text=plain_text,
+            top_k=top_k,
+        ),
+    }
 
 
 @app.post("/ask")
