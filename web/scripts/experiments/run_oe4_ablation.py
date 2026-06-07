@@ -175,7 +175,9 @@ def run_oe4():
                             if isinstance(row["title"], str)
                             else None
                         ),
-                        text=row["text"],
+                        text=(
+                            row["text"] if isinstance(row["text"], str) else ""
+                        ),
                         top_k=cfg.top_k,
                         think=cfg.thinking,
                         temperature=cfg.temperature,
@@ -187,8 +189,9 @@ def run_oe4():
                 except Exception as e:
                     print(f"  Row {i} error: {e}")
 
-                if (i + 1) % 50 == 0:
-                    print(f"  {i + 1}/{len(data)}")
+                if (i + 1) % 10 == 0 and latencies:
+                    avg = sum(latencies) / len(latencies)
+                    print(f"  {i+1}/{len(data)} — avg {avg:.1f}s/sample")
 
             if not y_true:
                 print("  All rows failed, skipping config")

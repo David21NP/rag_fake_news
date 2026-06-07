@@ -270,9 +270,13 @@ def create_generator(
                 stream=False,
                 format=ModelResponse.model_json_schema(),
                 options={
-                    "num_ctx": min(
-                        settings.ollama_num_ctx,
-                        (top_k or settings.top_k_selected) * 1024 + 2048,
+                    "num_ctx": (
+                        settings.ollama_num_ctx
+                        if chunk_type == "full"
+                        else min(
+                            settings.ollama_num_ctx,
+                            (top_k or settings.top_k_selected) * 512 + 2048,
+                        )
                     ),
                     "temperature": temperature,
                 },
