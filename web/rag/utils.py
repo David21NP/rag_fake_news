@@ -204,7 +204,26 @@ def create_generator(
     model: str,
     settings: Settings,
     chunk_type: Literal["full", "sliding"],
+    experiment: bool = True,
 ):
+    system_prompt: str = ""
+    with open(
+        os.path.join(PROMPT_PATH, "system_prompt.txt"),
+        "r",
+        encoding="utf-8",
+    ) as user_file:
+        system_prompt = user_file.read()
+
+    user_prompt: str = ""
+    with open(
+        os.path.join(PROMPT_PATH, "user_prompt.txt"),
+        "r",
+        encoding="utf-8",
+    ) as user_file:
+        user_prompt = user_file.read()
+
+    client_ollama = ollama.Client(host=str(settings.ollama_url))
+
     def generate_response(
         *,
         text: str,
@@ -228,27 +247,11 @@ def create_generator(
         context = "\n\n".join(
             [f"[{i + 1}] {r[0]}" for i, r in enumerate(results)]
         )
+        user_prompt_with_context = user_prompt.format(
+            context=context,
+            query=text_to_test,
+        )
 
-        system_prompt: str = ""
-        with open(
-            os.path.join(PROMPT_PATH, "system_prompt.txt"),
-            "r",
-            encoding="utf-8",
-        ) as user_file:
-            system_prompt = user_file.read()
-
-        user_prompt: str = ""
-        with open(
-            os.path.join(PROMPT_PATH, "user_prompt.txt"),
-            "r",
-            encoding="utf-8",
-        ) as user_file:
-            user_prompt = user_file.read().format(
-                context=context,
-                query=text_to_test,
-            )
-
-        client_ollama = ollama.Client(host=str(settings.ollama_url))
         start_time_llm = time.perf_counter()
         response: ollama.ChatResponse = (
             client_ollama.chat(  # pyright: ignore[reportUnknownMemberType]
@@ -260,14 +263,17 @@ def create_generator(
                     },
                     {
                         "role": "user",
-                        "content": user_prompt,
+                        "content": user_prompt_with_context,
                     },
                 ],
                 think=think,
                 stream=False,
                 format=ModelResponse.model_json_schema(),
                 options={
-                    "num_ctx": settings.ollama_num_ctx,
+                    "num_ctx": min(
+                        settings.ollama_num_ctx,
+                        (top_k or settings.top_k_selected) * 1024 + 2048,
+                    ),
                     "temperature": temperature,
                 },
             )
@@ -280,36 +286,37 @@ def create_generator(
         answer = ModelResponse.model_validate_json(response.message.content)
 
         ## Add verification
-        with psycopg2.connect(
-            dbname=settings.db_name,
-            user=settings.db_user,
-            password=settings.db_password,
-            host=settings.db_host,
-        ) as conn:
-            with conn.cursor() as cur:
-                cur.execute(
-                    """
-                        INSERT INTO verifications (
-                            news_content,
-                            retrieved_docs,
-                            prompt,
-                            llm_reasoning,
-                            label,
-                            confidence
-                        ) VALUES (%s, %s, %s, %s, %s, %s)
-                    """,
-                    (
-                        text_to_test,
-                        psycopg2.extras.Json(results),
+        if not experiment:
+            with psycopg2.connect(
+                dbname=settings.db_name,
+                user=settings.db_user,
+                password=settings.db_password,
+                host=settings.db_host,
+            ) as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                            INSERT INTO verifications (
+                                news_content,
+                                retrieved_docs,
+                                prompt,
+                                llm_reasoning,
+                                label,
+                                confidence
+                            ) VALUES (%s, %s, %s, %s, %s, %s)
+                        """,
                         (
-                            f"SYSTEM PROMPT:\n{system_prompt}"
-                            f"\n\nUSER_PROMPT:\n{user_prompt}"
+                            text_to_test,
+                            psycopg2.extras.Json(results),
+                            (
+                                f"SYSTEM PROMPT:\n{system_prompt}"
+                                f"\n\nUSER_PROMPT:\n{user_prompt}"
+                            ),
+                            response.message.thinking,
+                            answer.label,
+                            answer.confidence,
                         ),
-                        response.message.thinking,
-                        answer.label,
-                        answer.confidence,
-                    ),
-                )
+                    )
         elapsed = time.perf_counter() - start_time
 
         return GeneratedResponse(
