@@ -8,22 +8,26 @@ Aplicación FastAPI que implementa el pipeline RAG completo: indexación de docu
 
 ```
 web/
-├── main.py               # Endpoints FastAPI
-├── config.py             # Configuración vía variables de entorno (pydantic-settings)
-├── utils.py              # Utilidades generales
+├── main.py                   # Endpoints FastAPI
+├── config.py                 # Configuración vía variables de entorno (pydantic-settings)
+├── schemas.py                # Tipos compartidos: Metrics, ModelResponse, GeneratedResponse
+├── common/
+│   └── utils.py              # Carga de datasets, loading_bar, iter_batches
 ├── rag/
-│   └── utils.py          # Núcleo del pipeline: embed, search, make_query
+│   └── utils.py              # Núcleo: embed, búsqueda semántica, prompt, inferencia LLM
 ├── linguistic/
-│   └── pipeline.py       # Baseline NC-LBFV: TF-IDF + spaCy + NRCLex + Random Forest
+│   ├── __init__.py           # run_NC_LBFV — entrena y evalúa el baseline lingüístico
+│   └── utils.py              # Extracción de features: TF-IDF, spaCy, NRCLex, RF
 ├── scripts/
+│   ├── add_source_index.py   # Backfill de source_index en tablas existentes
+│   ├── preparations/
+│   │   └── create_embeddings.py  # Indexación del corpus en pgvector (con resume y backup)
 │   └── experiments/
-│       ├── run_oe4_ablation.py   # Ablation de parámetros RAG (OE4) [WIP]
-│       └── run_oe3_baselines.py  # Comparación con baselines (OE3) [WIP]
+│       ├── run_oe4_ablation.py   # OE4: ablation 64 configuraciones
+│       └── run_oe3_baselines.py  # OE3: comparación vs. baselines
 └── tests/
-    ├── rag/
-    │   └── test_create_embedding.py  # [WIP]
     └── linguistic/
-        └── test_pipeline.py          # [WIP]
+        └── test_pipeline.py   # Tests del baseline NC-LBFV
 ```
 
 ---
@@ -32,90 +36,103 @@ web/
 
 | Método | Endpoint | Descripción |
 |---|---|---|
-| `GET` | `/` | Health check |
-| `GET` | `/health` | Health check db |
+| `GET` | `/` | Ping |
+| `GET` | `/health` | Health check de base de datos |
 | `POST` | `/text` | Indexar texto o PDF en la knowledge base |
 | `POST` | `/ask` | Clasificar una noticia (fake / real) |
-| `GET` | `/pull_models` | Descargar modelos Ollama |
 
 ### Ejemplo — indexar texto
 
 ```bash
 curl -X POST http://localhost:8000/text \
-  -F "text=El presidente firmó hoy un nuevo acuerdo comercial con..."
+  -F "text=El presidente firmó hoy un nuevo acuerdo..." \
+  -F "label=1"
 ```
 
 ### Ejemplo — clasificar noticia
 
 ```bash
-curl -X POST "http://localhost:8000/ask?query=El+gobierno+anuncia+nueva+ley..."
+curl -X POST "http://localhost:8000/ask?text=El+gobierno+anuncia+nueva+ley..."
 ```
 
 ---
 
 ## Configuración
 
-Variables de entorno (definidas en el `docker-compose` o en un `.env` local):
+Variables de entorno (definidas en `docker-compose` o `models.env`):
 
-| Variable | Valor (docker-compose) | Descripción |
-|---|---|---|
-| `DB_HOST` | `pgvector` | Host de PostgreSQL |
-| `DB_NAME` | `rag` | Nombre de la base de datos |
-| `DB_USER` | `root` | Usuario de PostgreSQL |
-| `DB_PASSWORD_FILE` | `/run/secrets/db-password` | Ruta al archivo con la contraseña (Docker secrets) |
-| `OLLAMA_URL` | `http://ollama:11434` | URL del servicio Ollama |
-| `OLLAMA_MODEL_EMBEDDING_PRINCIPAL` | `mxbai-embed-large` | Modelo de embedding principal |
-| `OLLAMA_MODEL_EMBEDDING_ABLATION` | `nomic-embed-text` | Modelo de embedding para ablation |
-| `OLLAMA_MODEL_LLM_GENERADOR` | `qwen3:8b-q4_K_M` | Modelo LLM generador |
+| Variable | Descripción |
+|---|---|
+| `DB_HOST` | Host de PostgreSQL |
+| `DB_NAME` | Nombre de la base de datos |
+| `DB_USER` | Usuario de PostgreSQL |
+| `DB_PASSWORD_FILE` | Ruta al archivo con la contraseña (Docker secrets) |
+| `OLLAMA_URL` | URL del servicio Ollama |
+| `OLLAMA_MODEL_EMBEDDING_PRINCIPAL` | Modelo de embedding principal (`mxbai-embed-large:335m-v1-fp16`) |
+| `OLLAMA_MODEL_EMBEDDING_ABLATION` | Modelo de embedding ablation (`nomic-embed-text:v1.5`) |
+| `OLLAMA_MODEL_LLM_GENERADOR` | Modelo LLM (`qwen3:8b-q4_K_M`) |
+| `OLLAMA_NUM_CTX` | Tamaño del contexto LLM (8192 — obligatorio para k≥5) |
 
 ---
 
-## Tests
+## Indexación del corpus
+
+La indexación se ejecuta **automáticamente** al arrancar el contenedor `web_ai`, a través del lifespan de FastAPI (`main.py`). No requiere intervención manual.
+
+Al completarse, se genera automáticamente un backup de la base de datos en `web/backups/`.
+
+Comportamiento:
+- Procesa los 24.353 artículos del split `train` en batches de 128
+- Inserta en las 4 tablas en paralelo (ThreadPoolExecutor, 4 workers)
+- Soporta **resume automático**: si el contenedor se reinicia, reanuda desde el último artículo consistente entre todas las tablas
+
+### Backfill de source_index (solo si se interrumpió antes de implementar resume)
 
 ```bash
-# Instalar dependencias de desarrollo
-pip install -e ".[dev]"
-
-# Ejecutar todos los tests
-pytest tests/
-
-# Ejecutar solo los tests RAG
-pytest tests/rag/
-
-# Con cobertura
-pytest tests/ --cov=rag --cov=main
+PYTHONPATH=/code/app python /code/app/scripts/add_source_index.py
 ```
 
 ---
 
 ## Experimentos
 
-Los scripts de experimentos se ejecutan directamente con Python, fuera del contenedor, apuntando a los servicios levantados.
+Los scripts se ejecutan con Python directamente (fuera del contenedor), apuntando a los servicios levantados via `localhost`.
 
 ### OE4 — Ablation de parámetros RAG
 
-> **Work in progress** — script pendiente de implementación.
-
-Evaluará 16 configuraciones (2 embeddings × 2 estrategias de chunking × 4 valores de top-k) sobre un subset estratificado de 500 ejemplos.
+64 configuraciones: 2 embeddings × 2 chunking × 4 top-k × 2 temperaturas × 2 thinking
 
 ```bash
-python scripts/experiments/run_oe4_ablation.py \
-  --dataset gonzaloa \
-  --subset 500 \
-  --output results/oe4_ablation.csv
+cd web/
+PYTHONPATH=. python scripts/experiments/run_oe4_ablation.py
 ```
+
+Output: `web/results/oe4_ablation.csv`
+
+Columnas: `config_id, embedding, chunking, top_k, temperature, thinking, accuracy, precision, recall, f1, latency_mean_sec`
+
+Soporta **resume**: si se interrumpe, reanuda desde la última configuración completada.
 
 ### OE3 — Comparación con baselines
 
-> **Work in progress** — script pendiente de implementación.
-
-Evaluará la configuración principal del sistema (mxbai-embed-large / noticia completa / k=3) sobre 1.000–2.000 ejemplos para comparar con NC-LBFV (`linguistic/pipeline.py`) y Nezafat & Samet (2024).
+1.000 ejemplos estratificados (500 fake + 500 real) del split `test`.
 
 ```bash
-python scripts/experiments/run_oe3_baselines.py \
-  --dataset gonzaloa \
-  --subset 2000 \
-  --output results/oe3_baselines.csv
+cd web/
+PYTHONPATH=. python scripts/experiments/run_oe3_baselines.py
 ```
 
-Los resultados se guardan en CSV con columnas: `config`, `accuracy`, `precision`, `recall`, `f1`, `latency_mean`.
+Output: `web/results/oe3_baselines.csv`
+
+Sistemas comparados:
+1. RAG (configuración principal: EMB-A / CHUNK-A / k=3 / T=0.0 / think=off)
+2. NC-LBFV (Hashemi et al., 2026) — Random Forest sobre TF-IDF + spaCy + NRCLex
+3. Nezafat & Samet (2024) — resultados publicados (dataset ISOT, referencia externa)
+
+---
+
+## Tests
+
+```bash
+pytest tests/
+```

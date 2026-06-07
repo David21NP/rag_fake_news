@@ -1,6 +1,6 @@
 # RAG Fake News Detector
 
-Sistema de detección automática de noticias falsas basado en arquitectura RAG (Retrieval-Augmented Generation). Combina recuperación semántica sobre una base de conocimiento de noticias verificadas con el razonamiento de un LLM local (Qwen3) para clasificar noticias como `fake` o `real`.
+Sistema de detección automática de noticias falsas basado en arquitectura RAG (Retrieval-Augmented Generation). Combina recuperación semántica sobre una base de conocimiento estática de noticias verificadas con el razonamiento de un LLM local (Qwen3-8B) para clasificar noticias como `fake` o `real`.
 
 Desarrollado como Trabajo de Fin de Máster — Máster Universitario en Ciberseguridad, Universidad de Salamanca.
 
@@ -12,7 +12,7 @@ Desarrollado como Trabajo de Fin de Máster — Máster Universitario en Ciberse
 noticia entrada
       │
       ▼
-embedding (mxbai-embed-large)
+embedding (mxbai-embed-large o nomic-embed-text)
       │
       ▼
 búsqueda semántica en pgvector (top-k documentos)
@@ -24,19 +24,17 @@ construcción de prompt con contexto recuperado
 inferencia LLM (Qwen3-8B Q4)
       │
       ▼
-etiqueta (fake / real) + razonamiento + log en verifications
+etiqueta (fake / real) + confianza + razonamiento
 ```
 
 ---
 
 ## Entornos
 
-El proyecto tiene dos configuraciones Docker Compose:
-
-| Archivo | Entorno | Uso |
-|---|---|---|
-| `laptop.yaml` | Local con GPU (GTX 1050) | Desarrollo, indexación del corpus y experimentos |
-| `server.yaml` | Servidor sin GPU (Hetzner CX32) | Despliegue y prueba de latencia en producción |
+| Archivo       | Entorno                         | Uso                                   |
+| ------------- | ------------------------------- | ------------------------------------- |
+| `laptop.yaml` | Local con GPU (GTX 1050)        | Indexación del corpus y experimentos  |
+| `server.yaml` | Servidor sin GPU (Hetzner CX32) | Despliegue y prueba de latencia (OE2) |
 
 ---
 
@@ -57,14 +55,13 @@ cd <repo>
 
 # Crear el archivo de secretos
 echo "yoursecretpassword" > secrets/password.txt
+# o
+python -c 'import secrets; print(secrets.token_hex())' > secrets/password.txt
+
 
 # Construir y levantar (entorno laptop)
 ./scripts/build_laptop.sh
-# Levantar (entorno laptop)
 ./scripts/run_laptop.sh
-
-# Descargar modelos en Ollama (primera vez)
-./scripts/container/download_models.sh
 ```
 
 La API queda disponible en `http://localhost:8000`. Documentación interactiva en `http://localhost:8000/docs`.
@@ -73,74 +70,67 @@ La API queda disponible en `http://localhost:8000`. Documentación interactiva e
 
 ## Scripts
 
-| Script | Descripción |
-|---|---|
-| `scripts/build_laptop.sh` | Build de imágenes Docker para entorno local |
-| `scripts/build_server.sh` | Build de imágenes Docker para entorno servidor |
-| `scripts/run_laptop.sh` | Levantar stack completo en laptop (con GPU) |
-| `scripts/run_server.sh` | Levantar stack completo en servidor (CPU) |
-| `scripts/container/download_models.sh` | Descargar modelos Ollama dentro del contenedor |
+| Script                                 | Descripción                                          |
+| -------------------------------------- | ---------------------------------------------------- |
+| `scripts/build_laptop.sh`              | Build y run de imágenes Docker para entorno local    |
+| `scripts/build_server.sh`              | Build y run de imágenes Docker para entorno servidor |
+| `scripts/run_laptop.sh`                | Levantar stack completo en laptop (con GPU)          |
+| `scripts/run_server.sh`                | Levantar stack completo en servidor (CPU)            |
+| `scripts/container/download_models.sh` | Descargar modelos Ollama dentro del contenedor       |
 
 ---
 
 ## Módulos
 
-| Módulo | Ruta | Descripción |
-|---|---|---|
-| Pipeline RAG | `web/rag/utils.py` | Núcleo: embed, búsqueda semántica, construcción de prompt, inferencia LLM |
-| Baseline lingüístico | `web/linguistic/pipeline.py` | Clasificador NC-LBFV: TF-IDF + embeddings spaCy + emociones NRCLex + Random Forest |
+| Módulo               | Ruta                  | Descripción                                                                        |
+| -------------------- | --------------------- | ---------------------------------------------------------------------------------- |
+| Pipeline RAG         | `web/rag/utils.py`    | Núcleo: embed, búsqueda semántica, construcción de prompt, inferencia LLM          |
+| Baseline lingüístico | `web/linguistic/`     | Clasificador NC-LBFV: TF-IDF + embeddings spaCy + emociones NRCLex + Random Forest |
+| Utilidades comunes   | `web/common/utils.py` | Carga de datasets, barra de progreso, iteración por batches                        |
 
 ---
 
 ## Experimentos
 
-Los scripts de evaluación están en `web/scripts/experiments/`:
+Los scripts de evaluación están en `web/scripts/experiments/` y se ejecutan directamente con Python apuntando a los servicios levantados.
 
-| Script | Objetivo | Descripción |
-|---|---|---|
-| `run_oe4_ablation.py` | OE4 | Ablation de parámetros RAG: embedding × chunking × top-k (16 configuraciones) |
-| `run_oe3_baselines.py` | OE3 | Comparación del sistema vs. baselines sobre el subset de evaluación |
+| Script                 | Objetivo                             | Estado       |
+| ---------------------- | ------------------------------------ | ------------ |
+| `run_oe4_ablation.py`  | OE4 — ablation de 64 configuraciones | Implementado |
+| `run_oe3_baselines.py` | OE3 — comparación vs. baselines      | Implementado |
 
-> **Work in progress** — los scripts de experimentos son stubs vacíos pendientes de implementación.
-
-Ver `web/README.md` para instrucciones de ejecución de los experimentos.
-
----
-
-## Tests
-
-> **Work in progress** — los archivos de test son stubs vacíos pendientes de implementación.
-
-```bash
-# Desde el directorio web/
-pytest tests/
-```
-
-| Módulo | Ruta | Descripción |
-|---|---|---|
-| RAG | `tests/rag/test_create_embedding.py` | Generación de embeddings y operaciones sobre pgvector |
-| Lingüístico | `tests/linguistic/test_pipeline.py` | Pipeline de clasificación lingüística (baseline OE3) |
+Ver `web/README.md` para instrucciones de ejecución.
 
 ---
 
 ## Base de datos
 
-El esquema se inicializa automáticamente al levantar el contenedor `pgvector` mediante `db/init-vector.sh`. Se crean las siguientes tablas:
+El esquema se inicializa automáticamente al levantar el contenedor `pgvector` mediante `db/init-db.sql`. Se crean las siguientes tablas:
 
-| Tabla | Descripción |
-|---|---|
-| `documents_principal` | Embeddings con `mxbai-embed-large` (configuración principal, 1024 dims) |
-| `documents_ablation` | Embeddings con `nomic-embed-text` (configuración ablation) |
-| `verifications` | Log de clasificaciones: noticia, docs recuperados, prompt, razonamiento LLM, etiqueta y confianza |
+| Tabla                   | Embedding         | Chunking                         | Dims                   |
+| ----------------------- | ----------------- | -------------------------------- | ---------------------- |
+| `documents_emba_chunka` | mxbai-embed-large | Artículo completo                | 1024                   |
+| `documents_emba_chunkb` | mxbai-embed-large | Chunks 256 palabras / overlap 64 | 1024                   |
+| `documents_embb_chunka` | nomic-embed-text  | Artículo completo                | 768                    |
+| `documents_embb_chunkb` | nomic-embed-text  | Chunks 256 palabras / overlap 64 | 768                    |
+| `verifications`         | —                 | —                                | Log de clasificaciones |
 
+Todas las tablas de documentos incluyen la columna `source_index INTEGER` para soporte de resume en la indexación.
 
-Para exportar la knowledge base indexada y desplegarla en el servidor:
+### Exportar e importar la knowledge base
 
 ```bash
-# Exportar desde laptop
-pg_dump -h localhost -U root -d rag > rag_dump.sql
-docker exec postgres pg_dump rag > ./db/rag_dump.sql
+# Exportar desde el contenedor pgvector
+docker exec <pgvector-container> pg_dump -U root rag > ./db/rag_dump.sql
 
-# Importar en servidor
-psql -h <server-host> -U root -d rag < rag_dump.sql
+# El archivo se restaura automáticamente en un contenedor limpio
+# via docker-entrypoint-initdb.d/z-restore-db.sql
 ```
+
+---
+
+## Flujo de indexación
+
+La indexación se lanza **automáticamente** al arrancar el contenedor `web_ai` vía el lifespan de FastAPI. Al completarse, se genera un backup automático en `web/backups/`.
+
+El proceso soporta resume automático: si el contenedor se reinicia, reanuda desde el último artículo procesado en todas las tablas de forma consistente.
