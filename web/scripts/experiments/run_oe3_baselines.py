@@ -90,23 +90,31 @@ def run_oe3():
         model=settings.ollama_model_embedding_principal,
         chunk_type="full",
     )
-    data = df_subset.to_dict("records")
+    data: list[tuple[str, int]] = list(
+        zip(
+            (
+                df_subset["title"].fillna("")
+                + "\n\n"
+                + df_subset["text"].fillna("")
+            ).tolist(),
+            df_subset["label"].tolist(),
+        )
+    )
     y_true: list[int] = []
     y_pred: list[int] = []
     latencies: list[float] = []
 
-    for i, row in enumerate(data):
+    for i, (text, label) in enumerate(data):
         try:
             t0 = time.perf_counter()
             response = generator(
-                title=row["title"] if isinstance(row["title"], str) else None,
-                text=row["text"],
+                text=text,
                 top_k=3,
                 think=False,
                 temperature=0.0,
             )
             latencies.append(time.perf_counter() - t0)
-            y_true.append(int(row["label"]))
+            y_true.append(label)
             # Dataset: label=0 → fake, label=1 → real
             y_pred.append(0 if response.answer.label == "fake" else 1)
         except Exception as e:

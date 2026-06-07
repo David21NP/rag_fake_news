@@ -222,6 +222,11 @@ def create_generator(
     ) as user_file:
         user_prompt = user_file.read()
 
+    TOKENS_PER_CHUNK = {
+        "full": 1024,  # estimado conservador, artículo completo
+        "sliding": 384,  # 256 palabras fijas
+    }
+    PROMPT_OVERHEAD = 1024  # system prompt + prompt template + formato JSON
     client_ollama = ollama.Client(host=str(settings.ollama_url))
 
     def generate_response(
@@ -251,6 +256,11 @@ def create_generator(
             context=context,
             query=text_to_test,
         )
+        estimated_ctx = (
+            TOKENS_PER_CHUNK[chunk_type]
+            * ((top_k or settings.top_k_selected) + 1)
+            + PROMPT_OVERHEAD
+        )
 
         start_time_llm = time.perf_counter()
         response: ollama.ChatResponse = (
@@ -270,13 +280,9 @@ def create_generator(
                 stream=False,
                 format=ModelResponse.model_json_schema(),
                 options={
-                    "num_ctx": (
-                        settings.ollama_num_ctx
-                        if chunk_type == "full"
-                        else min(
-                            settings.ollama_num_ctx,
-                            (top_k or settings.top_k_selected) * 512 + 2048,
-                        )
+                    "num_ctx": min(
+                        settings.ollama_num_ctx,
+                        max(2048, estimated_ctx),
                     ),
                     "temperature": temperature,
                 },
