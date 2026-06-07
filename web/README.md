@@ -105,6 +105,8 @@ Los scripts se ejecutan con Python directamente (fuera del contenedor), apuntand
 ```bash
 cd web/
 PYTHONPATH=. python scripts/experiments/run_oe4_ablation.py
+
+docker exec -it <cont-name> bash -c "PYTHONPATH=/code/app python /code/app/scripts/experiments/run_oe4_ablation.py
 ```
 
 Output: `web/results/oe4_ablation.csv`
@@ -120,6 +122,8 @@ Soporta **resume**: si se interrumpe, reanuda desde la última configuración co
 ```bash
 cd web/
 PYTHONPATH=. python scripts/experiments/run_oe3_baselines.py
+
+docker exec -it <cont-name> bash -c "PYTHONPATH=/code/app python /code/app/scripts/experiments/run_oe3_baselines.py
 ```
 
 Output: `web/results/oe3_baselines.csv`

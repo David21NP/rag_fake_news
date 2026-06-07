@@ -123,6 +123,12 @@ Todas las tablas de documentos incluyen la columna `source_index INTEGER` para s
 # Exportar desde el contenedor pgvector
 docker exec <pgvector-container> pg_dump -U root rag > ./db/rag_dump.sql
 
+# Enviar al servidor vía scp
+scp ./db/rag_dump.sql user@<server-ip>:/path/to/repo/db/rag_dump.sql
+
+# Enviar al servidor vía rsync (más eficiente para archivos grandes)
+rsync -avz --progress ./db/rag_dump.sql user@<server-ip>:/path/to/repo/db/rag_dump.sql
+
 # El archivo se restaura automáticamente en un contenedor limpio
 # via docker-entrypoint-initdb.d/z-restore-db.sql
 ```
