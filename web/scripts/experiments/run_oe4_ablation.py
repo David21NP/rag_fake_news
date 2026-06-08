@@ -23,8 +23,7 @@ RESULTS_FILE_PATH = RESULTS_PATH / "oe4_ablation.csv"
 EXPERIMENT_CHUNK_TYPES: list[Literal["full", "sliding"]] = ["full", "sliding"]
 EXPERIMENT_TOP_Ks = [1, 3, 5, 10]
 EXPERIMENT_TEMPERATURES = [0.0, 0.3]
-EXPERIMENT_THINK_OPTIONS = [False, True]
-TEST_SUBSET_N_PER_CLASS = 250
+TEST_SUBSET_N_PER_CLASS = 50
 
 
 class ExperimentConfigs(BaseModel):
@@ -35,7 +34,7 @@ class ExperimentConfigs(BaseModel):
     chunking: Literal["CHUNK-A", "CHUNK-B"]
     top_k: int
     temperature: float
-    thinking: bool
+    thinking: bool = False
 
 
 CSV_COLUMNS = [
@@ -74,7 +73,7 @@ def run_oe4():
     settings = get_settings()
     RESULTS_PATH.mkdir(parents=True, exist_ok=True)
 
-    print("Loading test subset (500 samples: 250 fake + 250 real)...")
+    print("Loading test subset (100 samples: 50 fake + 50 real)...")
     df_subset = get_test_subset()
     data: list[tuple[str, int]] = list(
         zip(
@@ -93,7 +92,7 @@ def run_oe4():
         (settings.ollama_model_embedding_ablation, "EMB-B"),
     ]
 
-    # Build the full list of 64 configs up front
+    # Build the full list of 32 configs up front
     configs = [
         ExperimentConfigs(
             config_id=i + 1,
@@ -103,20 +102,17 @@ def run_oe4():
             chunking="CHUNK-A" if chunk_type == "full" else "CHUNK-B",
             top_k=top_k,
             temperature=temperature,
-            thinking=think,
         )
         for i, (
             (model, emb_label),
             chunk_type,
             temperature,
-            think,
             top_k,
         ) in enumerate(
             itertools.product(
                 models,
                 EXPERIMENT_CHUNK_TYPES,
                 EXPERIMENT_TEMPERATURES,
-                EXPERIMENT_THINK_OPTIONS,
                 EXPERIMENT_TOP_Ks,
             )
         )
