@@ -23,7 +23,7 @@ web/
 │   ├── preparations/
 │   │   └── create_embeddings.py  # Indexación del corpus en pgvector (con resume y backup)
 │   └── experiments/
-│       ├── run_oe4_ablation.py   # OE4: ablation 64 configuraciones
+│       ├── run_oe4_ablation.py   # OE4: ablation 32 configuraciones (think=off)
 │       └── run_oe3_baselines.py  # OE3: comparación vs. baselines
 └── tests/
     └── linguistic/
@@ -100,13 +100,16 @@ Los scripts se ejecutan con Python directamente (fuera del contenedor), apuntand
 
 ### OE4 — Ablation de parámetros RAG
 
-64 configuraciones: 2 embeddings × 2 chunking × 4 top-k × 2 temperaturas × 2 thinking
+32 configuraciones: 2 embeddings × 2 chunking × 4 top-k × 2 temperaturas × thinking off
 
 ```bash
 cd web/
 PYTHONPATH=. python scripts/experiments/run_oe4_ablation.py
 
-docker exec -it <cont-name> bash -c "PYTHONPATH=/code/app python /code/app/scripts/experiments/run_oe4_ablation.py
+# docker exec -it <cont-name> bash -c "PYTHONPATH=/code/app python /code/app/scripts/experiments/run_oe4_ablation.py"
+
+docker exec <cont-name> bash -c "PYTHONPATH=/code/app nohup python /code/app/scripts/experiments/run_oe4_ablation.py > /code/app/results/oe4.log 2>&1 &"
+docker exec <cont-name> tail -f /code/app/results/oe4.log
 ```
 
 Output: `web/results/oe4_ablation.csv`
@@ -123,7 +126,10 @@ Soporta **resume**: si se interrumpe, reanuda desde la última configuración co
 cd web/
 PYTHONPATH=. python scripts/experiments/run_oe3_baselines.py
 
-docker exec -it <cont-name> bash -c "PYTHONPATH=/code/app python /code/app/scripts/experiments/run_oe3_baselines.py
+# docker exec -it <cont-name> bash -c "PYTHONPATH=/code/app python /code/app/scripts/experiments/run_oe3_baselines.py"
+
+docker exec <cont-name> bash -c "PYTHONPATH=/code/app nohup python /code/app/scripts/experiments/run_oe3_baselines.py > /code/app/results/oe3.log 2>&1 &"
+docker exec <cont-name> tail -f /code/app/results/oe3.log
 ```
 
 Output: `web/results/oe3_baselines.csv`

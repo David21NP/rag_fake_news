@@ -33,8 +33,8 @@ etiqueta (fake / real) + confianza + razonamiento
 
 | Archivo       | Entorno                         | Uso                                   |
 | ------------- | ------------------------------- | ------------------------------------- |
-| `laptop.yaml` | Local con GPU (GTX 1050)        | Indexación del corpus y experimentos  |
-| `server.yaml` | Servidor sin GPU (Hetzner CX32) | Despliegue y prueba de latencia (OE2) |
+| `laptop.yaml` | Local con GPU (GTX 1050)        | Indexación del corpus                         |
+| `server.yaml` | Servidor sin GPU (Hetzner CX43) | Experimentos OE3/OE4 y prueba de latencia OE2 |
 
 ---
 
@@ -96,7 +96,7 @@ Los scripts de evaluación están en `web/scripts/experiments/` y se ejecutan di
 
 | Script                 | Objetivo                             | Estado       |
 | ---------------------- | ------------------------------------ | ------------ |
-| `run_oe4_ablation.py`  | OE4 — ablation de 64 configuraciones | Implementado |
+| `run_oe4_ablation.py`  | OE4 — ablation de 32 configuraciones | Implementado |
 | `run_oe3_baselines.py` | OE3 — comparación vs. baselines      | Implementado |
 
 Ver `web/README.md` para instrucciones de ejecución.
