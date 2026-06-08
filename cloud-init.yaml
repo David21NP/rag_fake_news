@@ -62,7 +62,7 @@ runcmd:
   - systemctl start fail2ban
 
   # Swap 2 GB
-  - fallocate -l 2G /swapfile
+  - fallocate -l 6G /swapfile
   - chmod 600 /swapfile
   - mkswap /swapfile
   - swapon /swapfile
