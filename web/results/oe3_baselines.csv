@@ -1,0 +1,4 @@
+system,accuracy,precision,recall,f1,latency_mean_sec
+NC-LBFV,0.926,0.9475,0.902,0.9242,0.025619
+RAG,0.6697,0.6988,0.5952,0.6429,94.0222
+Nezafat & Samet (2024)*,0.88,0.94,N/A,0.87,N/A
