@@ -118,6 +118,21 @@ Columnas: `config_id, embedding, chunking, top_k, temperature, thinking, accurac
 
 Soporta **resume**: si se interrumpe, reanuda desde la última configuración completada.
 
+### OE4 — Experimento thinking
+
+2 configuraciones: configuración principal (EMB-A / CHUNK-A / k=3 / T=0.0) con think=off vs think=on
+
+```bash
+docker exec <cont-name> bash -c "PYTHONPATH=/code/app nohup python /code/app/scripts/experiments/run_oe4_ablation_think.py > /code/app/results/oe4_think.log 2>&1 &"
+docker exec <cont-name> tail -f /code/app/results/oe4_think.log
+```
+
+Output: `web/results/oe4_ablation_think.csv`
+
+Soporta **resume**: si se interrumpe, reanuda desde la última configuración completada.
+
+---
+
 ### OE3 — Comparación con baselines
 
 1.000 ejemplos estratificados (500 fake + 500 real) del split `test`.
