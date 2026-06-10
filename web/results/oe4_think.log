@@ -1,0 +1,29 @@
+Loading test subset (100 samples: 50 fake + 50 real)...
+Loaded: 100 samples
+[1/2] EMB-A CHUNK-A k=3 T=0.0 think=False | ETA ?m?s | Loading:  |#########################-------------------------| 50.0%
+  10/100 — avg 110.2s/sample
+  20/100 — avg 112.5s/sample
+  30/100 — avg 114.8s/sample
+  40/100 — avg 112.4s/sample
+  50/100 — avg 107.5s/sample
+  60/100 — avg 107.9s/sample
+  70/100 — avg 103.0s/sample
+  80/100 — avg 101.1s/sample
+  90/100 — avg 100.3s/sample
+  100/100 — avg 99.0s/sample
+[2/2] EMB-A CHUNK-A k=3 T=0.0 think=True | ETA 0m0s | Loading:  |##################################################| 100.0%
+  10/100 — avg 244.4s/sample
+  20/100 — avg 268.5s/sample
+  30/100 — avg 269.2s/sample
+  Row 37 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing a value at line 1 column 0 [type=json_invalid, input_value='', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  40/100 — avg 265.1s/sample
+  50/100 — avg 256.4s/sample
+  60/100 — avg 253.5s/sample
+  70/100 — avg 255.5s/sample
+  80/100 — avg 248.7s/sample
+  90/100 — avg 247.2s/sample
+  100/100 — avg 247.2s/sample
+
+Done. Results saved to /code/app/results/oe4_ablation_think.csv

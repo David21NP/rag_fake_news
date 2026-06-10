@@ -1,0 +1,25 @@
+[nltk_data] Downloading package punkt_tab to /root/nltk_data...
+[nltk_data]   Unzipping tokenizers/punkt_tab.zip.
+[nltk_data] Downloading package wordnet to /root/nltk_data...
+Loading test subset (1000 samples: 500 fake + 500 real)...
+Loaded: 1000 samples
+
+Running NC-LBFV (Hashemi et al.)...
+NC-LBFV done. F1=0.9242, latency=0.025619s/sample
+
+Running RAG (principal config)...
+  Row 22 error: model runner has unexpectedly stopped, this may be due to resource limitations or an internal error, check ollama server logs for details (status code: 500)
+  100/1000
+  200/1000
+  300/1000
+  400/1000
+  500/1000
+  600/1000
+  700/1000
+  800/1000
+  900/1000
+  1000/1000
+RAG done. F1=0.6429, latency=94.0222s/sample
+
+Done. Results saved to /code/app/results/oe3_baselines.csv
+* Nezafat & Samet evaluated on ISOT dataset, not GonzaloA/fake_news
