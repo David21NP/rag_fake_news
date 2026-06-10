@@ -1,0 +1,3 @@
+config_id,embedding,chunking,top_k,temperature,thinking,accuracy,precision,recall,f1,latency_mean_sec
+1,EMB-A,CHUNK-A,3,0.0,False,0.64,0.6591,0.58,0.617,99.0305
+2,EMB-A,CHUNK-A,3,0.0,True,0.5354,0.5357,0.6,0.566,247.2113
