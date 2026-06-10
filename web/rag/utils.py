@@ -10,6 +10,7 @@ import psycopg2.extras
 import psycopg2.sql
 import PyPDF2
 from fastapi import HTTPException
+from pydantic import ValidationError
 
 from config import Settings
 from schemas import GeneratedResponse, ModelResponse
@@ -293,7 +294,20 @@ def create_generator(
         if response.message.content is None:
             raise HTTPException(500, "Content from llm empty")
 
-        answer = ModelResponse.model_validate_json(response.message.content)
+        try:
+            answer = ModelResponse.model_validate_json(
+                response.message.content
+            )
+        except ValidationError as validation_error:
+            raise ValueError(
+                (
+                    f"LLM response validation failed "
+                    f"(num_ctx={min(settings.ollama_num_ctx, max(2048, estimated_ctx))}, "
+                    f"likely context overflow). "
+                    f"Content: {repr(response.message.content[:200])}. "
+                    f"Content Length: {len(response.message.content)}"
+                )
+            ) from validation_error
 
         ## Add verification
         if not experiment:
