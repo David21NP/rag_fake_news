@@ -27,12 +27,49 @@ inferencia LLM (Qwen3-8B Q4)
 etiqueta (fake / real) + confianza + razonamiento
 ```
 
+Mermaid:
+
+```mermaid
+flowchart TB
+    subgraph OFFLINE["FASE OFFLINE — Indexación del corpus (ejecutada una vez)"]
+        direction LR
+        A["GonzaloA/fake_news\nSplit train\n24.353 artículos"] --> B["Preprocesamiento\nTítulo + cuerpo"]
+        B --> C{"Estrategia\nchunking"}
+        C -->|CHUNK-A| D["Noticia completa\n≤512 tokens"]
+        C -->|CHUNK-B| E["Sub-chunks\n256 tokens\noverlap 64"]
+        D --> F["Modelo de embeddings\nmxbai-embed-large\nnomic-embed-text\nvía Ollama"]
+        E --> F
+        F --> G[("PostgreSQL\n+ pgvector\nÍndice vectorial")]
+    end
+
+    subgraph ONLINE["FASE ONLINE — Inferencia (por cada noticia a verificar)"]
+        direction LR
+        H["Noticia de entrada"] --> I["Modelo de embeddings\n(mismo que indexación)"]
+        I --> J["Vector de consulta"]
+        J --> K[("PostgreSQL\n+ pgvector\nBúsqueda coseno")]
+        K -->|"Top-k documentos\n(k ∈ {1,3,5,10})"| L["Construcción\ndel prompt\naugmentado"]
+        H --> L
+        L --> M["Qwen3-8B Q4_K_M\nvía Ollama\nnum_ctx dinámico\nstructured outputs"]
+        M --> N["Veredicto\nFake / Real\n+ confianza"]
+        M -.->|"Opcional"| O["Justificación\ntextual"]
+    end
+
+    G -->|"pg_dump / pg_restore\n(despliegue Hetzner CX43)"| K
+
+    style OFFLINE fill:#EBF3FB,stroke:#2E75B6,stroke-width:2px
+    style ONLINE fill:#E8F5E9,stroke:#2d6a4f,stroke-width:2px
+    style G fill:#D6E4F0,stroke:#1F4E79
+    style K fill:#D6E4F0,stroke:#1F4E79
+    style M fill:#FFF3CD,stroke:#856404
+    style N fill:#D4EDDA,stroke:#155724
+```
+
 ---
 
 ## Entornos
 
-| Archivo       | Entorno                         | Uso                                   |
-| ------------- | ------------------------------- | ------------------------------------- |
+| Archivo       | Entorno                         | Uso                                           |
+| ------------- | ------------------------------- | --------------------------------------------- |
 | `laptop.yaml` | Local con GPU (GTX 1050)        | Indexación del corpus                         |
 | `server.yaml` | Servidor sin GPU (Hetzner CX43) | Experimentos OE3/OE4 y prueba de latencia OE2 |
 
