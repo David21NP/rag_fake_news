@@ -1,0 +1,3 @@
+,accuracy,precision,recall,f1,latency_mean_sec
+EMB-A (mxbai-embed-large),0.6681,0.6908,0.6169,0.6509,101.2904
+EMB-B (nomic-embed-text),0.6784,0.6979,0.6401,0.6628,107.0801
