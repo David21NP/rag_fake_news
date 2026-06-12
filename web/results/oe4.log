@@ -1,0 +1,734 @@
+Loading test subset (100 samples: 50 fake + 50 real)...
+Loaded: 100 samples
+Resuming: 1/32 configs already done
+[2/32] EMB-A CHUNK-A k=3 T=0.0 think=False | ETA ?m?s | Loading:  |###-----------------------------------------------| 6.2%
+  Row 7 error: model runner has unexpectedly stopped, this may be due to resource limitations or an internal error, check ollama server logs for details (status code: 500)
+  10/100 — avg 84.7s/sample
+  20/100 — avg 96.0s/sample
+  Row 28 error: an error was encountered while running the model: unexpected EOF (status code: 500)
+  30/100 — avg 102.5s/sample
+  40/100 — avg 100.9s/sample
+  50/100 — avg 98.6s/sample
+  Row 51 error: model runner has unexpectedly stopped, this may be due to resource limitations or an internal error, check ollama server logs for details (status code: 500)
+  60/100 — avg 100.8s/sample
+  70/100 — avg 97.4s/sample
+  Row 77 error: model runner has unexpectedly stopped, this may be due to resource limitations or an internal error, check ollama server logs for details (status code: 500)
+  80/100 — avg 96.9s/sample
+  90/100 — avg 95.1s/sample
+  100/100 — avg 94.9s/sample
+[3/32] EMB-A CHUNK-A k=5 T=0.0 think=False | ETA 2208m8s | Loading:  |####----------------------------------------------| 9.4%
+  10/100 — avg 132.9s/sample
+  20/100 — avg 147.1s/sample
+  30/100 — avg 151.4s/sample
+  40/100 — avg 149.5s/sample
+  50/100 — avg 146.3s/sample
+  60/100 — avg 150.1s/sample
+  70/100 — avg 144.6s/sample
+  80/100 — avg 142.6s/sample
+  90/100 — avg 142.1s/sample
+  100/100 — avg 143.4s/sample
+[4/32] EMB-A CHUNK-A k=10 T=0.0 think=False | ETA 3651m22s | Loading:  |######--------------------------------------------| 12.5%
+  Row 2 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 7 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  10/100 — avg 209.0s/sample
+  Row 10 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 11 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 12 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  20/100 — avg 238.3s/sample
+  Row 20 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 21 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 22 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 23 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing a string at line 2 column 8 [type=json_invalid, input_value='{\n  "label', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 26 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  30/100 — avg 235.9s/sample
+  Row 30 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 34 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 39 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  40/100 — avg 240.7s/sample
+  Row 44 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 46 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  50/100 — avg 227.7s/sample
+  Row 53 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 54 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 55 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  60/100 — avg 229.1s/sample
+  Row 69 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  70/100 — avg 227.1s/sample
+  Row 70 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 76 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  80/100 — avg 228.5s/sample
+  Row 84 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 85 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  90/100 — avg 227.9s/sample
+  Row 90 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing a string at line 4 column 368 [type=json_invalid, input_value='{\n  "label": "real",\n ...handle disasters. These', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 92 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 96 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 97 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  100/100 — avg 226.7s/sample
+[5/32] EMB-A CHUNK-A k=1 T=0.3 think=False | ETA 5487m24s | Loading:  |#######-------------------------------------------| 15.6%
+  10/100 — avg 39.5s/sample
+  20/100 — avg 44.3s/sample
+  30/100 — avg 48.2s/sample
+  40/100 — avg 48.5s/sample
+  50/100 — avg 48.4s/sample
+  60/100 — avg 50.6s/sample
+  70/100 — avg 48.1s/sample
+  80/100 — avg 48.1s/sample
+  90/100 — avg 48.3s/sample
+  100/100 — avg 48.7s/sample
+[6/32] EMB-A CHUNK-A k=3 T=0.3 think=False | ETA 4648m59s | Loading:  |#########-----------------------------------------| 18.8%
+  10/100 — avg 93.8s/sample
+  20/100 — avg 99.3s/sample
+  30/100 — avg 103.5s/sample
+  40/100 — avg 102.0s/sample
+  50/100 — avg 99.9s/sample
+  60/100 — avg 101.2s/sample
+  70/100 — avg 98.0s/sample
+  80/100 — avg 96.2s/sample
+  90/100 — avg 94.6s/sample
+  100/100 — avg 94.6s/sample
+[7/32] EMB-A CHUNK-A k=5 T=0.3 think=False | ETA 4382m4s | Loading:  |##########----------------------------------------| 21.9%
+  10/100 — avg 132.0s/sample
+  20/100 — avg 147.4s/sample
+  30/100 — avg 152.9s/sample
+  40/100 — avg 151.6s/sample
+  50/100 — avg 148.3s/sample
+  60/100 — avg 152.0s/sample
+  70/100 — avg 146.5s/sample
+  80/100 — avg 144.4s/sample
+  90/100 — avg 143.8s/sample
+  100/100 — avg 144.8s/sample
+[8/32] EMB-A CHUNK-A k=10 T=0.3 think=False | ETA 4433m29s | Loading:  |############--------------------------------------| 25.0%
+  Row 2 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 7 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  10/100 — avg 211.6s/sample
+  Row 10 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 11 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 12 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  20/100 — avg 242.2s/sample
+  Row 20 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 21 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 22 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 23 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing a string at line 2 column 8 [type=json_invalid, input_value='{\n  "label', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 26 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  30/100 — avg 240.6s/sample
+  Row 30 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 34 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 39 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  40/100 — avg 245.5s/sample
+  Row 44 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 46 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  50/100 — avg 232.7s/sample
+  Row 53 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 54 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 55 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  60/100 — avg 234.6s/sample
+  Row 69 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  70/100 — avg 232.6s/sample
+  Row 70 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 76 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  80/100 — avg 234.0s/sample
+  Row 84 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 85 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  90/100 — avg 233.4s/sample
+  Row 90 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing a string at line 4 column 368 [type=json_invalid, input_value='{\n  "label": "real",\n ...handle disasters. These', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 92 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 96 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 97 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  100/100 — avg 232.4s/sample
+[9/32] EMB-A CHUNK-B k=1 T=0.0 think=False | ETA 4961m45s | Loading:  |##############------------------------------------| 28.1%
+  10/100 — avg 33.5s/sample
+  20/100 — avg 36.1s/sample
+  30/100 — avg 37.0s/sample
+  40/100 — avg 37.5s/sample
+  50/100 — avg 38.6s/sample
+  60/100 — avg 38.9s/sample
+  70/100 — avg 37.6s/sample
+  80/100 — avg 37.2s/sample
+  90/100 — avg 37.2s/sample
+  100/100 — avg 37.3s/sample
+[10/32] EMB-A CHUNK-B k=3 T=0.0 think=False | ETA 4370m50s | Loading:  |###############-----------------------------------| 31.2%
+  10/100 — avg 50.8s/sample
+  20/100 — avg 53.5s/sample
+  30/100 — avg 55.4s/sample
+  40/100 — avg 56.5s/sample
+  50/100 — avg 57.2s/sample
+  60/100 — avg 57.7s/sample
+  70/100 — avg 56.0s/sample
+  80/100 — avg 55.3s/sample
+  90/100 — avg 55.1s/sample
+  100/100 — avg 55.2s/sample
+[11/32] EMB-A CHUNK-B k=5 T=0.0 think=False | ETA 3948m15s | Loading:  |#################---------------------------------| 34.4%
+  10/100 — avg 69.8s/sample
+  20/100 — avg 73.1s/sample
+  30/100 — avg 74.8s/sample
+  40/100 — avg 75.6s/sample
+  50/100 — avg 75.6s/sample
+  60/100 — avg 75.8s/sample
+  70/100 — avg 74.2s/sample
+  80/100 — avg 73.6s/sample
+  90/100 — avg 73.5s/sample
+  100/100 — avg 73.6s/sample
+[12/32] EMB-A CHUNK-B k=10 T=0.0 think=False | ETA 3641m18s | Loading:  |##################--------------------------------| 37.5%
+  10/100 — avg 121.0s/sample
+  20/100 — avg 125.1s/sample
+  30/100 — avg 128.3s/sample
+  40/100 — avg 128.6s/sample
+  50/100 — avg 127.6s/sample
+  60/100 — avg 127.8s/sample
+  70/100 — avg 124.9s/sample
+  80/100 — avg 123.3s/sample
+  90/100 — avg 123.8s/sample
+  100/100 — avg 123.5s/sample
+[13/32] EMB-A CHUNK-B k=1 T=0.3 think=False | ETA 3496m56s | Loading:  |####################------------------------------| 40.6%
+  10/100 — avg 31.8s/sample
+  20/100 — avg 34.6s/sample
+  30/100 — avg 35.7s/sample
+  40/100 — avg 36.4s/sample
+  50/100 — avg 37.4s/sample
+  60/100 — avg 37.8s/sample
+  70/100 — avg 36.6s/sample
+  80/100 — avg 36.2s/sample
+  90/100 — avg 36.2s/sample
+  100/100 — avg 36.4s/sample
+[14/32] EMB-A CHUNK-B k=3 T=0.3 think=False | ETA 3141m58s | Loading:  |#####################-----------------------------| 43.8%
+  10/100 — avg 50.0s/sample
+  20/100 — avg 53.1s/sample
+  30/100 — avg 54.9s/sample
+  40/100 — avg 56.0s/sample
+  50/100 — avg 56.7s/sample
+  60/100 — avg 57.0s/sample
+  70/100 — avg 55.6s/sample
+  80/100 — avg 55.0s/sample
+  90/100 — avg 55.1s/sample
+  100/100 — avg 55.3s/sample
+[15/32] EMB-A CHUNK-B k=5 T=0.3 think=False | ETA 2867m18s | Loading:  |#######################---------------------------| 46.9%
+  10/100 — avg 71.6s/sample
+  20/100 — avg 74.4s/sample
+  30/100 — avg 76.7s/sample
+  40/100 — avg 77.2s/sample
+  50/100 — avg 77.2s/sample
+  60/100 — avg 77.4s/sample
+  70/100 — avg 75.9s/sample
+  80/100 — avg 75.1s/sample
+  90/100 — avg 75.2s/sample
+  100/100 — avg 75.5s/sample
+[16/32] EMB-A CHUNK-B k=10 T=0.3 think=False | ETA 2653m2s | Loading:  |#########################-------------------------| 50.0%
+  10/100 — avg 125.0s/sample
+  20/100 — avg 129.5s/sample
+  30/100 — avg 132.7s/sample
+  40/100 — avg 133.2s/sample
+  50/100 — avg 132.5s/sample
+  60/100 — avg 132.9s/sample
+  70/100 — avg 130.4s/sample
+  80/100 — avg 128.6s/sample
+  90/100 — avg 129.3s/sample
+  100/100 — avg 129.0s/sample
+[17/32] EMB-B CHUNK-A k=1 T=0.0 think=False | ETA 2533m25s | Loading:  |##########################------------------------| 53.1%
+  10/100 — avg 46.6s/sample
+  20/100 — avg 48.8s/sample
+  30/100 — avg 51.7s/sample
+  40/100 — avg 53.2s/sample
+  50/100 — avg 52.9s/sample
+  60/100 — avg 53.4s/sample
+  70/100 — avg 51.0s/sample
+  80/100 — avg 51.3s/sample
+  90/100 — avg 51.3s/sample
+  100/100 — avg 51.2s/sample
+[18/32] EMB-B CHUNK-A k=3 T=0.0 think=False | ETA 2295m46s | Loading:  |############################----------------------| 56.2%
+  10/100 — avg 91.9s/sample
+  20/100 — avg 101.4s/sample
+  30/100 — avg 105.8s/sample
+  40/100 — avg 107.9s/sample
+  50/100 — avg 107.2s/sample
+  60/100 — avg 108.9s/sample
+  70/100 — avg 104.5s/sample
+  80/100 — avg 104.4s/sample
+  90/100 — avg 104.7s/sample
+  100/100 — avg 103.8s/sample
+[19/32] EMB-B CHUNK-A k=5 T=0.0 think=False | ETA 2138m18s | Loading:  |#############################---------------------| 59.4%
+  10/100 — avg 135.4s/sample
+  20/100 — avg 151.5s/sample
+  30/100 — avg 160.1s/sample
+  40/100 — avg 163.7s/sample
+  50/100 — avg 161.1s/sample
+  60/100 — avg 162.8s/sample
+  70/100 — avg 159.8s/sample
+  80/100 — avg 160.1s/sample
+  90/100 — avg 160.2s/sample
+  100/100 — avg 157.7s/sample
+[20/32] EMB-B CHUNK-A k=10 T=0.0 think=False | ETA 2035m54s | Loading:  |###############################-------------------| 62.5%
+  Row 2 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 8 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  10/100 — avg 254.1s/sample
+  Row 10 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 11 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 15 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  20/100 — avg 270.3s/sample
+  Row 20 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 21 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 23 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 26 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 28 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  30/100 — avg 264.1s/sample
+  Row 30 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 33 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 34 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 35 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 39 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  40/100 — avg 263.9s/sample
+  Row 42 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 44 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 45 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 46 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  50/100 — avg 257.2s/sample
+  Row 53 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 54 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 56 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing a string at line 4 column 326 [type=json_invalid, input_value='{\n  "label": "real",\n ...ump\'s vacation and his', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  60/100 — avg 257.4s/sample
+  Row 62 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 63 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 69 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  70/100 — avg 251.6s/sample
+  Row 70 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 74 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 75 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 76 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 78 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing a value at line 3 column 18 [type=json_invalid, input_value='{\n  "label": "real",\n  "confidence": 0.', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  80/100 — avg 251.5s/sample
+  Row 81 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 83 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 84 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 85 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 89 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  90/100 — avg 245.1s/sample
+  Row 90 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 97 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  100/100 — avg 243.6s/sample
+[21/32] EMB-B CHUNK-A k=1 T=0.3 think=False | ETA 2025m51s | Loading:  |################################------------------| 65.6%
+  10/100 — avg 45.9s/sample
+  20/100 — avg 48.9s/sample
+  30/100 — avg 51.4s/sample
+  40/100 — avg 52.9s/sample
+  50/100 — avg 52.9s/sample
+  60/100 — avg 53.6s/sample
+  70/100 — avg 51.4s/sample
+  80/100 — avg 51.6s/sample
+  90/100 — avg 51.5s/sample
+  100/100 — avg 51.4s/sample
+[22/32] EMB-B CHUNK-A k=3 T=0.3 think=False | ETA 1794m46s | Loading:  |##################################----------------| 68.8%
+  10/100 — avg 92.3s/sample
+  20/100 — avg 101.6s/sample
+  30/100 — avg 105.7s/sample
+  40/100 — avg 107.2s/sample
+  50/100 — avg 106.2s/sample
+  60/100 — avg 109.6s/sample
+  70/100 — avg 105.5s/sample
+  80/100 — avg 105.5s/sample
+  90/100 — avg 105.5s/sample
+  100/100 — avg 104.6s/sample
+[23/32] EMB-B CHUNK-A k=5 T=0.3 think=False | ETA 1613m13s | Loading:  |###################################---------------| 71.9%
+  10/100 — avg 135.3s/sample
+  20/100 — avg 149.2s/sample
+  30/100 — avg 158.2s/sample
+  40/100 — avg 161.9s/sample
+  50/100 — avg 159.5s/sample
+  60/100 — avg 161.4s/sample
+  70/100 — avg 158.0s/sample
+  80/100 — avg 158.2s/sample
+  90/100 — avg 158.0s/sample
+  100/100 — avg 155.7s/sample
+[24/32] EMB-B CHUNK-A k=10 T=0.3 think=False | ETA 1461m52s | Loading:  |#####################################-------------| 75.0%
+  Row 2 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 8 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  10/100 — avg 250.6s/sample
+  Row 10 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 11 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 15 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  20/100 — avg 265.0s/sample
+  Row 20 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 21 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 23 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 26 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 28 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  30/100 — avg 259.4s/sample
+  Row 30 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 33 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 34 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 35 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 39 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  40/100 — avg 259.7s/sample
+  Row 42 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 44 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 45 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 46 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  50/100 — avg 254.1s/sample
+  Row 53 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 54 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 56 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing a string at line 4 column 336 [type=json_invalid, input_value='{\n  "label": "real",\n ...on golf. The references', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  60/100 — avg 255.5s/sample
+  Row 62 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 63 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 69 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  70/100 — avg 250.7s/sample
+  Row 70 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 74 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 75 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 76 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 78 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing a value at line 3 column 18 [type=json_invalid, input_value='{\n  "label": "real",\n  "confidence": 0.', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  80/100 — avg 251.2s/sample
+  Row 81 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 83 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 84 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 85 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 89 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  90/100 — avg 245.5s/sample
+  Row 90 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  Row 97 error: 1 validation error for ModelResponse
+  Invalid JSON: EOF while parsing an object at line 2 column 0 [type=json_invalid, input_value='{\n', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid
+  100/100 — avg 243.1s/sample
+[25/32] EMB-B CHUNK-B k=1 T=0.0 think=False | ETA 1360m6s | Loading:  |#######################################-----------| 78.1%
+  10/100 — avg 33.3s/sample
+  20/100 — avg 36.0s/sample
+  30/100 — avg 37.4s/sample
+  40/100 — avg 38.0s/sample
+  50/100 — avg 38.7s/sample
+  60/100 — avg 38.9s/sample
+  70/100 — avg 37.3s/sample
+  80/100 — avg 36.9s/sample
+  90/100 — avg 36.8s/sample
+  100/100 — avg 36.8s/sample
+[26/32] EMB-B CHUNK-B k=3 T=0.0 think=False | ETA 1133m52s | Loading:  |########################################----------| 81.2%
+  10/100 — avg 50.7s/sample
+  20/100 — avg 55.2s/sample
+  30/100 — avg 57.0s/sample
+  40/100 — avg 57.8s/sample
+  50/100 — avg 57.7s/sample
+  60/100 — avg 58.5s/sample
+  70/100 — avg 56.9s/sample
+  80/100 — avg 56.3s/sample
+  90/100 — avg 56.2s/sample
+  100/100 — avg 56.3s/sample
+[27/32] EMB-B CHUNK-B k=5 T=0.0 think=False | ETA 926m36s | Loading:  |##########################################--------| 84.4%
+  10/100 — avg 71.9s/sample
+  20/100 — avg 75.2s/sample
+  30/100 — avg 77.5s/sample
+  40/100 — avg 78.4s/sample
+  50/100 — avg 78.3s/sample
+  60/100 — avg 78.6s/sample
+  70/100 — avg 76.8s/sample
+  80/100 — avg 76.3s/sample
+  90/100 — avg 76.2s/sample
+  100/100 — avg 76.1s/sample
+[28/32] EMB-B CHUNK-B k=10 T=0.0 think=False | ETA 732m37s | Loading:  |###########################################-------| 87.5%
+  10/100 — avg 121.4s/sample
+  20/100 — avg 129.5s/sample
+  30/100 — avg 131.8s/sample
+  40/100 — avg 132.9s/sample
+  50/100 — avg 132.8s/sample
+  60/100 — avg 133.3s/sample
+  70/100 — avg 130.7s/sample
+  80/100 — avg 129.9s/sample
+  90/100 — avg 129.6s/sample
+  100/100 — avg 129.7s/sample
+[29/32] EMB-B CHUNK-B k=1 T=0.3 think=False | ETA 553m0s | Loading:  |#############################################-----| 90.6%
+  10/100 — avg 32.5s/sample
+  20/100 — avg 35.9s/sample
+  30/100 — avg 37.3s/sample
+  40/100 — avg 37.9s/sample
+  50/100 — avg 38.5s/sample
+  60/100 — avg 38.6s/sample
+  70/100 — avg 37.1s/sample
+  80/100 — avg 36.6s/sample
+  90/100 — avg 36.5s/sample
+  100/100 — avg 36.5s/sample
+[30/32] EMB-B CHUNK-B k=3 T=0.3 think=False | ETA 360m9s | Loading:  |##############################################----| 93.8%
+  10/100 — avg 51.1s/sample
+  20/100 — avg 56.0s/sample
+  30/100 — avg 57.5s/sample
+  40/100 — avg 58.1s/sample
+  50/100 — avg 58.4s/sample
+  60/100 — avg 58.8s/sample
+  70/100 — avg 57.2s/sample
+  80/100 — avg 56.7s/sample
+  90/100 — avg 56.4s/sample
+  100/100 — avg 56.5s/sample
+[31/32] EMB-B CHUNK-B k=5 T=0.3 think=False | ETA 177m13s | Loading:  |################################################--| 96.9%
+  10/100 — avg 71.1s/sample
+  20/100 — avg 75.4s/sample
+  30/100 — avg 77.4s/sample
+  40/100 — avg 78.6s/sample
+  50/100 — avg 78.6s/sample
+  60/100 — avg 79.0s/sample
+  70/100 — avg 77.3s/sample
+  80/100 — avg 76.8s/sample
+  90/100 — avg 76.7s/sample
+  100/100 — avg 76.8s/sample
+[32/32] EMB-B CHUNK-B k=10 T=0.3 think=False | ETA 0m0s | Loading:  |##################################################| 100.0%
+  10/100 — avg 124.4s/sample
+  20/100 — avg 131.3s/sample
+  30/100 — avg 133.9s/sample
+  40/100 — avg 135.8s/sample
+  50/100 — avg 135.6s/sample
+  60/100 — avg 136.3s/sample
+  70/100 — avg 133.7s/sample
+  80/100 — avg 132.7s/sample
+  90/100 — avg 132.8s/sample
+  100/100 — avg 133.4s/sample
+
+Done. Results saved to /code/app/results/oe4_ablation.csv
